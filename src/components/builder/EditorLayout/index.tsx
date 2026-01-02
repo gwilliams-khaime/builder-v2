@@ -4,7 +4,8 @@ import { ReactNode, useState } from 'react';
 import { EditorHeader, DeviceType } from '../EditorHeader';
 import { LeftPanel } from '../LeftPanel';
 import { RightPanel } from '../RightPanel';
-import { CraftEditor, Indicator } from '../craft';
+import { CraftEditor } from '../craft';
+import { Indicator } from '../craft/indicator';
 import { cn } from '@/lib/utils';
 
 interface EditorLayoutProps {

@@ -4,4 +4,3 @@ export { defaultTemplate, getSerializedTemplate } from "./templates/default-temp
 export { SettingsPanel, useEditorState, useEditorActions } from "./SettingsPanel";
 export { LayersPanel } from "./LayersPanel";
 export { ToolboxPanel } from "./ToolboxPanel";
-export { Indicator } from "./Indicator";
