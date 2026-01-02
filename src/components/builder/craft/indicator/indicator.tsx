@@ -178,6 +178,62 @@ export const Indicator = () => {
   const handleResize = () => console.log("Resize clicked", { selectedId, selectedType });
   const handleReplaceMedia = () => console.log("Replace Media clicked", { selectedId, selectedType });
 
+  /**
+   * Generate a unique ID for cloned nodes
+   */
+  const generateUniqueId = () => {
+    return `node-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  };
+
+  /**
+   * Deep clone a node tree with new unique IDs
+   */
+  const cloneNodeTreeWithNewIds = (nodeTree: any): any => {
+    const idMap: Record<string, string> = {};
+    const clonedNodes: Record<string, any> = {};
+
+    // First pass: create ID mappings
+    Object.keys(nodeTree.nodes).forEach((oldId) => {
+      idMap[oldId] = generateUniqueId();
+    });
+
+    // Second pass: clone nodes with new IDs and update references
+    Object.keys(nodeTree.nodes).forEach((oldId) => {
+      const node = nodeTree.nodes[oldId];
+      const newId = idMap[oldId];
+
+      clonedNodes[newId] = {
+        ...node,
+        id: newId,
+        data: {
+          ...node.data,
+          // Update parent reference if it's within the cloned tree
+          parent: node.data.parent && idMap[node.data.parent] 
+            ? idMap[node.data.parent] 
+            : node.data.parent,
+          // Update children references
+          nodes: node.data.nodes 
+            ? node.data.nodes.map((childId: string) => idMap[childId] || childId)
+            : [],
+          // Update linkedNodes references if they exist
+          linkedNodes: node.data.linkedNodes
+            ? Object.fromEntries(
+                Object.entries(node.data.linkedNodes).map(([key, value]) => [
+                  key,
+                  idMap[value as string] || value,
+                ])
+              )
+            : undefined,
+        },
+      };
+    });
+
+    return {
+      rootNodeId: idMap[nodeTree.rootNodeId],
+      nodes: clonedNodes,
+    };
+  };
+
   // Duplicate the selected component
   const handleDuplicate = () => {
     if (!selectedId || selectedId === "ROOT") return;
@@ -194,11 +250,14 @@ export const Indicator = () => {
       const siblings = parentNode.data.nodes;
       const currentIndex = siblings.indexOf(selectedId);
       
-      // Get the serialized tree of the selected node
-      const nodeTree = editorQuery.node(selectedId).toNodeTree();
+      // Get the node tree of the selected node
+      const originalTree = editorQuery.node(selectedId).toNodeTree();
       
-      // Clone and add the node right after the current one
-      editorActions.addNodeTree(nodeTree, parentId, currentIndex + 1);
+      // Clone with new unique IDs
+      const clonedTree = cloneNodeTreeWithNewIds(originalTree);
+      
+      // Add the cloned tree right after the current one
+      editorActions.addNodeTree(clonedTree, parentId, currentIndex + 1);
     } catch (error) {
       console.error("Failed to duplicate component:", error);
     }
@@ -213,14 +272,30 @@ export const Indicator = () => {
       setShowDeleteModal(true);
     } else {
       // Direct delete for non-section elements
-      editorActions.delete(selectedId);
+      try {
+        // Check if node still exists before deleting
+        const nodeExists = editorQuery.node(selectedId).get();
+        if (nodeExists) {
+          editorActions.delete(selectedId);
+        }
+      } catch (error) {
+        console.error("Failed to delete component:", error);
+      }
     }
   };
 
   // Confirm delete (called from modal)
   const handleConfirmDelete = () => {
     if (selectedId && selectedId !== "ROOT") {
-      editorActions.delete(selectedId);
+      try {
+        // Check if node still exists before deleting
+        const nodeExists = editorQuery.node(selectedId).get();
+        if (nodeExists) {
+          editorActions.delete(selectedId);
+        }
+      } catch (error) {
+        console.error("Failed to delete component:", error);
+      }
     }
   };
 
