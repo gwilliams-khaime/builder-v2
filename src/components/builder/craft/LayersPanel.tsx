@@ -4,6 +4,7 @@ import { useEditor } from "@craftjs/core";
 import React, { useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icons } from "@/icons";
+import { cn } from "@/lib/utils";
 
 interface LayerItemProps {
   nodeId: string;
@@ -96,25 +97,30 @@ const LayerItem = ({ nodeId, depth = 0 }: LayerItemProps) => {
   return (
     <div className="select-none text-sm text-[#161616]">
       <div
-        className={`group flex items-center justify-between py-2 pr-3 cursor-pointer transition-colors ${
-          isSelected
-            ? "bg-[#E0E0E0] font-medium"
-            : "hover:bg-gray-100"
-        }`}
+        className={cn(
+          "group flex items-center justify-between py-2 pr-3 cursor-pointer transition-colors",
+          isSelected ? "bg-[#E0E0E0] font-medium" : "hover:bg-gray-100"
+        )}
         style={{ paddingLeft: `${depth * 16 + 12}px` }}
         onClick={handleSelect}
       >
         <div className="flex items-center gap-2 overflow-hidden">
           {/* Expand/collapse indicator */}
           <div 
-            className={`w-4 h-4 flex items-center justify-center transition-transform duration-200 cursor-pointer ${hasChildNodes ? "hover:bg-black/5 rounded" : ""}`}
+            className={cn(
+              "w-4 h-4 flex items-center justify-center transition-transform duration-200 cursor-pointer",
+              hasChildNodes && "hover:bg-black/5 rounded"
+            )}
             onClick={hasChildNodes ? toggleExpanded : undefined}
           >
             {hasChildNodes && (
               <Icons.ChevronDown 
                 width={10} 
                 height={10} 
-                className={`text-[#545454] transition-transform duration-200 ${!expanded ? "-rotate-90" : ""}`} 
+                className={cn(
+                  "text-[#545454] transition-transform duration-200",
+                  !expanded && "-rotate-90"
+                )} 
               />
             )}
           </div>
@@ -131,9 +137,10 @@ const LayerItem = ({ nodeId, depth = 0 }: LayerItemProps) => {
         {/* Visibility Toggle - Show on hover or if hidden */}
         <button
           onClick={toggleHidden}
-          className={`p-1 rounded hover:bg-black/5 text-[#545454] transition-opacity ${
+          className={cn(
+            "p-1 rounded hover:bg-black/5 text-[#545454] transition-opacity",
             isHidden ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-          }`}
+          )}
         >
           {isHidden ? (
             <Icons.EyeClose width={14} height={14} />

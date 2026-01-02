@@ -39,7 +39,7 @@ export const defaultTemplate = {
     type: { resolvedName: "Text" },
     isCanvas: false,
     props: {
-      text: "Your Brand",
+      text: "Logo",
       fontSize: 24,
       fontWeight: 700,
       color: "#ffffff",
@@ -534,7 +534,7 @@ export const defaultTemplate = {
     type: { resolvedName: "Text" },
     isCanvas: false,
     props: {
-      text: "Your Brand",
+      text: "Logo",
       fontSize: 20,
       fontWeight: 700,
       color: "#ffffff",

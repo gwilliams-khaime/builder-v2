@@ -1,8 +1,22 @@
 import Image from "next/image";
 import { Icons } from "@/icons";
 import { Tooltip } from "@mantine/core";
+import { useEditor } from "@craftjs/core";
+import { cn } from "@/lib/utils";
 
-export const EditorHeader = () => {
+export type DeviceType = "desktop" | "tablet" | "mobile";
+
+interface EditorHeaderProps {
+  device: DeviceType;
+  setDevice: (device: DeviceType) => void;
+}
+
+export const EditorHeader = ({ device, setDevice }: EditorHeaderProps) => {
+  const { canUndo, canRedo, actions } = useEditor((state, query) => ({
+    canUndo: query.history.canUndo(),
+    canRedo: query.history.canRedo(),
+  }));
+
   return (
     <header className="h-16 border-b border-[#E0E0E0] bg-white flex items-center justify-between sticky top-0 z-50 relative font-sans">
       {/* Left Section: Logo, Undo/Redo, Devices */}
@@ -24,12 +38,26 @@ export const EditorHeader = () => {
         {/* Undo/Redo */}
         <div className="flex items-center gap-2 mx-5">
           <Tooltip label="Undo" position="bottom" withArrow>
-            <button className="p-2 hover:bg-gray-100 rounded-md transition-colors text-[#7C7C7C] hover:text-[#323232]">
+            <button 
+              onClick={() => actions.history.undo()}
+              disabled={!canUndo}
+              className={cn(
+                "p-2 rounded-md transition-colors",
+                !canUndo ? "opacity-50 cursor-not-allowed text-[#7C7C7C]" : "hover:bg-gray-100 text-[#7C7C7C] hover:text-[#323232]"
+              )}
+            >
               <Icons.Undo width={18} height={16} />
             </button>
           </Tooltip>
           <Tooltip label="Redo" position="bottom" withArrow>
-            <button className="p-2 hover:bg-gray-100 rounded-md transition-colors text-[#7C7C7C] hover:text-[#323232]">
+            <button 
+              onClick={() => actions.history.redo()}
+              disabled={!canRedo}
+              className={cn(
+                "p-2 rounded-md transition-colors",
+                !canRedo ? "opacity-50 cursor-not-allowed text-[#7C7C7C]" : "hover:bg-gray-100 text-[#7C7C7C] hover:text-[#323232]"
+              )}
+            >
               <Icons.Redo width={18} height={16} />
             </button>
           </Tooltip>
@@ -38,17 +66,35 @@ export const EditorHeader = () => {
         {/* Device Toggles */}
         <div className="flex items-center p-1 bg-[#F6F6F6] rounded-lg">
           <Tooltip label="Desktop View" position="bottom" withArrow>
-            <button className="p-2 rounded-md bg-white shadow-sm text-black transition-all">
+            <button 
+              onClick={() => setDevice("desktop")}
+              className={cn(
+                "p-2 rounded-md transition-all",
+                device === "desktop" ? "bg-white shadow-sm text-black" : "text-[#7C7C7C] hover:text-black hover:bg-gray-100"
+              )}
+            >
               <Icons.Desktop width={16} height={16} />
             </button>
           </Tooltip>
           <Tooltip label="Tablet View" position="bottom" withArrow>
-            <button className="p-2 rounded-md text-[#7C7C7C] hover:text-black hover:bg-gray-100 transition-all">
+            <button 
+              onClick={() => setDevice("tablet")}
+              className={cn(
+                "p-2 rounded-md transition-all",
+                device === "tablet" ? "bg-white shadow-sm text-black" : "text-[#7C7C7C] hover:text-black hover:bg-gray-100"
+              )}
+            >
               <Icons.Tablet width={16} height={16} />
             </button>
           </Tooltip>
           <Tooltip label="Mobile View" position="bottom" withArrow>
-            <button className="p-2 rounded-md text-[#7C7C7C] hover:text-black hover:bg-gray-100 transition-all">
+            <button 
+              onClick={() => setDevice("mobile")}
+              className={cn(
+                "p-2 rounded-md transition-all",
+                device === "mobile" ? "bg-white shadow-sm text-black" : "text-[#7C7C7C] hover:text-black hover:bg-gray-100"
+              )}
+            >
               <Icons.Mobile width={16} height={16} />
             </button>
           </Tooltip>

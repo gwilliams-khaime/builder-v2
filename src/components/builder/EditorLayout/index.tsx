@@ -1,10 +1,11 @@
 "use client";
 
 import { ReactNode, useState } from 'react';
-import { EditorHeader } from '../EditorHeader';
+import { EditorHeader, DeviceType } from '../EditorHeader';
 import { LeftPanel } from '../LeftPanel';
 import { RightPanel } from '../RightPanel';
 import { CraftEditor, Indicator } from '../craft';
+import { cn } from '@/lib/utils';
 
 interface EditorLayoutProps {
   children: ReactNode;
@@ -16,6 +17,7 @@ export const EditorLayout = ({ children }: EditorLayoutProps) => {
   const [leftPanelOpen, setLeftPanelOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<TabId | null>(null);
   const [rightPanelOpen, setRightPanelOpen] = useState(true);
+  const [device, setDevice] = useState<DeviceType>("desktop");
 
   const handleTabClick = (tab: any) => {
     // If same tab clicked while open, toggle close
@@ -41,7 +43,7 @@ export const EditorLayout = ({ children }: EditorLayoutProps) => {
   return (
     <CraftEditor enabled={true}>
       <div className="flex flex-col h-screen w-full bg-white text-slate-900">
-        <EditorHeader />
+        <EditorHeader device={device} setDevice={setDevice} />
         <div className="flex flex-1 overflow-hidden relative">
           {/* Left Panel (Sidebar + Drawer) - Now sibling to Main, not absolute */}
           <LeftPanel 
@@ -53,8 +55,13 @@ export const EditorLayout = ({ children }: EditorLayoutProps) => {
           
           {/* Main Canvas Area */}
           <main className="flex-1 overflow-auto bg-[#F6F6F6] relative p-4 transition-all duration-300">
-              <div className="w-full min-h-full bg-white rounded-lg relative">
-                  <div className="craftjs-renderer w-full">
+              <div className={cn(
+                "h-full bg-white rounded-lg relative shadow-sm mx-auto transition-all duration-300",
+                device === "mobile" ? "max-w-[375px]" :
+                device === "tablet" ? "max-w-[768px]" :
+                "w-full"
+              )}>
+                  <div className="craftjs-renderer w-full h-full">
                       {children}
                   </div>
               </div>

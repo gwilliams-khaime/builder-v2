@@ -72,7 +72,7 @@ export const Text = ({
         setEditable(false);
         setProp((props: TextProps) => {
           props.text = e.currentTarget.innerText;
-        });
+        }, 500);
       }}
     >
       {text}

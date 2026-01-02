@@ -30,6 +30,7 @@ const theme = createTheme({
           backgroundColor: "#F6F6F6",
           color: "#161616",
           fontWeight: 400,
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
         },
         arrow: {
           backgroundColor: "#F6F6F6",

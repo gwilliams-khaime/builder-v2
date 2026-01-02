@@ -3,6 +3,7 @@ import { Icons } from "@/icons";
 import React from "react";
 import { LayersPanel, ToolboxPanel } from "../craft";
 import { Tooltip } from "@mantine/core";
+import { cn } from "@/lib/utils";
 
 type TabId = "add" | "layers" | "gallery" | "cms" | "product" | "saved" | "domain" | "notify" | "theme" | "dev";
 
@@ -53,14 +54,12 @@ export const LeftPanel = ({ activeTab, isOpen, onTabClick, onClose }: LeftPanelP
       <div className="w-16 h-full bg-white border-r border-[#E0E0E0] flex flex-col items-center py-4 justify-between z-30 relative shrink-0">
         <div className="flex flex-col gap-2 w-full px-2 items-center">
             {/* Add Elements Button */}
-            <Tooltip label="Add Elements" position="right" withArrow>
+            <Tooltip label="Add Elements" position="right" openDelay={200} offset={16} arrowSize={7} withArrow>
               <button
                 onClick={() => onTabClick("add")}
-                className={`p-3 bg-[#101828] rounded-lg transition-colors flex text-white justify-center items-center ${
-                  activeTab === "add" && isOpen
-                    ? "text-white"
-                    : "text-[#323232]"
-                }`}
+                className={cn(
+                  "p-3 bg-[#101828] rounded-lg transition-colors flex text-white justify-center items-center",
+                )}
               >
                 <Icons.Plus width={16} height={16} />
               </button>
@@ -69,14 +68,15 @@ export const LeftPanel = ({ activeTab, isOpen, onTabClick, onClose }: LeftPanelP
             {/* Top Menu */}
             <div className="flex flex-col gap-2 w-full">
             {MENU_ITEMS.map((item) => (
-                <Tooltip key={item.id} label={getLabel(item.id)} position="right" withArrow>
+                <Tooltip key={item.id} label={getLabel(item.id)} openDelay={200} position="right" offset={16} arrowSize={10} withArrow>
                   <button
                   onClick={() => onTabClick(item.id)}
-                  className={`p-3 rounded-lg transition-colors flex justify-center items-center ${
-                      activeTab === item.id && isOpen
+                  className={cn(
+                    "p-3 rounded-lg transition-colors flex justify-center items-center",
+                    activeTab === item.id && isOpen
                       ? "bg-[#F6F6F6] text-[#323232]"
                       : "text-[#7C7C7C] hover:text-[#323232] hover:bg-gray-50"
-                  }`}
+                  )}
                   >
                   <item.Icon width={20} height={20} />
                   </button>
@@ -88,21 +88,22 @@ export const LeftPanel = ({ activeTab, isOpen, onTabClick, onClose }: LeftPanelP
         {/* Bottom Menu */}
         <div className="flex flex-col gap-2 w-full px-2">
           {BOTTOM_ITEMS.map((item) => (
-            <Tooltip key={item.id} label={getLabel(item.id)} position="right" withArrow>
+            <Tooltip key={item.id} label={getLabel(item.id)} openDelay={200} position="right" withArrow>
               <button
                 onClick={() => onTabClick(item.id)}
-                className={`p-3 rounded-lg transition-colors flex justify-center items-center ${
+                className={cn(
+                  "p-3 rounded-lg transition-colors flex justify-center items-center",
                   activeTab === item.id && isOpen
                     ? "bg-[#F6F6F6] text-[#323232]"
                     : "text-[#7C7C7C] hover:text-[#323232] hover:bg-gray-50"
-                }`}
+                )}
               >
                 <item.Icon width={20} height={20} />
               </button>
             </Tooltip>
           ))}
           {/* Dark Mode Toggle Placeholder */}
-          <Tooltip label="Toggle Dark Mode" position="right" withArrow>
+          <Tooltip label="Toggle Dark Mode" position="right" openDelay={200} withArrow>
             <button className="p-3 rounded-lg text-[#7C7C7C] hover:text-[#323232] hover:bg-gray-50 flex justify-center items-center">
               <Icons.Moon width={20} height={20} />
             </button>
