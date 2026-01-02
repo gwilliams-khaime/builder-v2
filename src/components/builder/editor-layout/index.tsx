@@ -1,9 +1,9 @@
 "use client";
 
 import { ReactNode, useState } from 'react';
-import { EditorHeader, DeviceType } from '../EditorHeader';
-import { LeftPanel } from '../LeftPanel';
-import { RightPanel } from '../RightPanel';
+import { EditorHeader, DeviceType } from '../editor-header';
+import { LeftPanel } from '../left-panel';
+import { RightPanel } from '../right-panel';
 import { CraftEditor } from '../craft';
 import { Indicator } from '../craft/indicator';
 import { cn } from '@/lib/utils';

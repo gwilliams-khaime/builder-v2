@@ -5,6 +5,7 @@ import { useEffect, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 
 import { SectionToolbar, ElementToolbar, HoverIndicator } from "./components";
+import { DeleteConfirmationModal } from "./delete-confirmation-modal";
 import { 
   getComponentType, 
   isSectionType, 
@@ -26,7 +27,7 @@ import type { IndicatorPosition } from "./types";
  * - Hover indicator for hovered components
  */
 export const Indicator = () => {
-  // Get editor state
+  // Get editor state and actions
   const { 
     selectedId, 
     hoveredId, 
@@ -35,7 +36,7 @@ export const Indicator = () => {
     selectedNode, 
     hoveredNode, 
     enabled, 
-    allNodes 
+    allNodes,
   } = useEditor((state) => {
     const selectedIds = Array.from(state.events.selected);
     const selectedId = selectedIds.length > 0 ? selectedIds[0] : null;
@@ -69,11 +70,15 @@ export const Indicator = () => {
       allNodes: state.nodes,
     };
   });
+  
+  // Get actions and query from useEditor
+  const { actions: editorActions, query: editorQuery } = useEditor();
 
   // Position state
   const [selectedPos, setSelectedPos] = useState<IndicatorPosition | null>(null);
   const [hoveredPos, setHoveredPos] = useState<IndicatorPosition | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Mount check for SSR
   useEffect(() => {
@@ -135,15 +140,90 @@ export const Indicator = () => {
   const isHoveredSection = isSectionType(hoveredNode);
   const showSettings = shouldShowSettings(selectedNode);
 
-  // Toolbar action handlers (log for now)
-  const handleMoveUp = () => console.log("Move Up clicked", { selectedId, selectedType });
-  const handleMoveDown = () => console.log("Move Down clicked", { selectedId, selectedType });
+  // Move section up in the tree
+  const handleMoveUp = () => {
+    if (!selectedId) return;
+    
+    const rootNode = allNodes["ROOT"];
+    if (!rootNode?.data?.nodes) return;
+    
+    const siblings = rootNode.data.nodes;
+    const currentIndex = siblings.indexOf(selectedId);
+    
+    if (currentIndex > 0) {
+      // Move the node up by swapping with the previous sibling
+      editorActions.move(selectedId, "ROOT", currentIndex - 1);
+    }
+  };
+
+  // Move section down in the tree
+  const handleMoveDown = () => {
+    if (!selectedId) return;
+    
+    const rootNode = allNodes["ROOT"];
+    if (!rootNode?.data?.nodes) return;
+    
+    const siblings = rootNode.data.nodes;
+    const currentIndex = siblings.indexOf(selectedId);
+    
+    if (currentIndex < siblings.length - 1) {
+      // Move the node down by swapping with the next sibling
+      editorActions.move(selectedId, "ROOT", currentIndex + 2);
+    }
+  };
+
   const handleMoveLeft = () => console.log("Move Left clicked", { selectedId, selectedType });
   const handleMoveRight = () => console.log("Move Right clicked", { selectedId, selectedType });
   const handleLink = () => console.log("Link clicked", { selectedId, selectedType });
   const handleResize = () => console.log("Resize clicked", { selectedId, selectedType });
-  const handleDuplicate = () => console.log("Duplicate clicked", { selectedId, selectedType });
-  const handleDelete = () => console.log("Delete clicked", { selectedId, selectedType });
+  const handleReplaceMedia = () => console.log("Replace Media clicked", { selectedId, selectedType });
+
+  // Duplicate the selected component
+  const handleDuplicate = () => {
+    if (!selectedId || selectedId === "ROOT") return;
+    
+    try {
+      // Get the parent of the selected node
+      const parentId = selectedNode?.data?.parent;
+      if (!parentId) return;
+      
+      const parentNode = allNodes[parentId];
+      if (!parentNode?.data?.nodes) return;
+      
+      // Find the current index in parent's children
+      const siblings = parentNode.data.nodes;
+      const currentIndex = siblings.indexOf(selectedId);
+      
+      // Get the serialized tree of the selected node
+      const nodeTree = editorQuery.node(selectedId).toNodeTree();
+      
+      // Clone and add the node right after the current one
+      editorActions.addNodeTree(nodeTree, parentId, currentIndex + 1);
+    } catch (error) {
+      console.error("Failed to duplicate component:", error);
+    }
+  };
+
+  // Handle delete - shows modal for sections, direct delete for elements
+  const handleDelete = () => {
+    if (!selectedId || selectedId === "ROOT") return;
+    
+    if (isSelectedSection) {
+      // Show confirmation modal for sections
+      setShowDeleteModal(true);
+    } else {
+      // Direct delete for non-section elements
+      editorActions.delete(selectedId);
+    }
+  };
+
+  // Confirm delete (called from modal)
+  const handleConfirmDelete = () => {
+    if (selectedId && selectedId !== "ROOT") {
+      editorActions.delete(selectedId);
+    }
+  };
+
   const handleMore = () => console.log("More options clicked", { selectedId, selectedType });
   const handleSettings = () => console.log("Settings clicked", { selectedId, selectedType });
   const handleReplace = () => console.log("Replace clicked", { selectedId, selectedType });
@@ -184,10 +264,12 @@ export const Indicator = () => {
       <ElementToolbar
         position={selectedPos}
         componentType={selectedType}
+        selectedNode={selectedNode}
         onMoveLeft={handleMoveLeft}
         onMoveRight={handleMoveRight}
         onLink={handleLink}
         onResize={handleResize}
+        onReplaceMedia={handleReplaceMedia}
         onDuplicate={handleDuplicate}
         onDelete={handleDelete}
         onMore={handleMore}
@@ -212,6 +294,12 @@ export const Indicator = () => {
     <>
       {renderHoverIndicator()}
       {isSelectedSection ? renderSectionToolbar() : renderElementToolbar()}
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleConfirmDelete}
+        componentType={selectedType}
+      />
     </>,
     document.body
   );

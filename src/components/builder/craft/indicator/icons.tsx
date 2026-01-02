@@ -80,4 +80,13 @@ export const TOOLBAR_ICONS = {
       <path d="M3.5 2L6.5 5L3.5 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   ),
+  replaceMedia: (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 3H4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm8 8h-4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1z" fill="#161616"/>
+      <circle cx="4.5" cy="5.5" r="0.5" fill="#161616"/>
+      <circle cx="6.5" cy="4.5" r="0.5" fill="#161616"/>
+      <path d="m15 13 1 1v-1h1v2l-2-2zm-1 2v1h2l-2-1z" fill="#161616"/>
+      <path d="m10.5 9.5 2 2h-4l2-2zm-2 2v1h4v-1h-4z" fill="#161616" opacity="0.7"/>
+    </svg>
+  ),
 };

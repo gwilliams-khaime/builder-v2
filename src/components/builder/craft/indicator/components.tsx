@@ -9,6 +9,11 @@ import type {
   SelectionBorderProps,
   IndicatorPosition 
 } from "./types";
+import {
+  shouldShowLinkIcon,
+  shouldShowResizeIcon,
+  shouldShowReplaceMediaIcon,
+} from "./utils";
 
 /**
  * Toolbar button component - 24x24px wrapper
@@ -134,61 +139,76 @@ export const SectionToolbar = ({
   onMore,
   onAddSectionTop,
   onAddSectionBottom,
-}: SectionToolbarProps) => (
-  <>
-    {/* Selection border */}
-    <SelectionBorder position={position} />
+}: SectionToolbarProps) => {
+  // Determine which move buttons to show based on section position
+  const showMoveUp = !isFirstSection;
+  const showMoveDown = !isLastSection;
 
-    {/* Component type label - inside top left */}
-    <ComponentLabel 
-      name={componentType} 
-      style={{ top: position.top + 12, left: position.left + 12 }} 
-    />
+  return (
+    <>
+      {/* Selection border */}
+      <SelectionBorder position={position} />
 
-    {/* Toolbar - inside below the label */}
-    <div
-      style={{
-        position: "fixed",
-        top: position.top + 44,
-        left: position.left + 12,
-        zIndex: 9999,
-        pointerEvents: "auto",
-      }}
-    >
-      <div className="flex items-center bg-white rounded-full shadow-lg px-2 py-1.5 gap-2.5">
-        <ToolbarButton icon={TOOLBAR_ICONS.moveUp} onClick={onMoveUp} title="Move Up" />
-        <ToolbarButton icon={TOOLBAR_ICONS.moveDown} onClick={onMoveDown} title="Move Down" />
-        <ToolbarButton icon={TOOLBAR_ICONS.replace} onClick={onReplace} title="Replace" separator />
-        <ToolbarButton icon={TOOLBAR_ICONS.duplicate} onClick={onDuplicate} title="Duplicate" />
-        {showSettings && (
-          <ToolbarButton icon={TOOLBAR_ICONS.settings} onClick={onSettings} title="Settings" />
-        )}
-        <ToolbarButton icon={TOOLBAR_ICONS.delete} onClick={onDelete} title="Delete" />
-        <ToolbarButton icon={TOOLBAR_ICONS.more} onClick={onMore} title="More" separator />
+      {/* Component type label - inside top left */}
+      <ComponentLabel 
+        name={componentType} 
+        style={{ top: position.top + 12, left: position.left + 12 }} 
+      />
+
+      {/* Toolbar - inside below the label */}
+      <div
+        style={{
+          position: "fixed",
+          top: position.top + 44,
+          left: position.left + 12,
+          zIndex: 9999,
+          pointerEvents: "auto",
+        }}
+      >
+        <div className="flex items-center bg-white rounded-full shadow-lg px-2 py-1.5 gap-2.5">
+          {showMoveUp && (
+            <ToolbarButton icon={TOOLBAR_ICONS.moveUp} onClick={onMoveUp} title="Move Up" />
+          )}
+          {showMoveDown && (
+            <ToolbarButton icon={TOOLBAR_ICONS.moveDown} onClick={onMoveDown} title="Move Down" />
+          )}
+          <ToolbarButton 
+            icon={TOOLBAR_ICONS.replace} 
+            onClick={onReplace} 
+            title="Replace" 
+            separator={showMoveUp || showMoveDown} 
+          />
+          <ToolbarButton icon={TOOLBAR_ICONS.duplicate} onClick={onDuplicate} title="Duplicate" />
+          {showSettings && (
+            <ToolbarButton icon={TOOLBAR_ICONS.settings} onClick={onSettings} title="Settings" />
+          )}
+          <ToolbarButton icon={TOOLBAR_ICONS.delete} onClick={onDelete} title="Delete" />
+          <ToolbarButton icon={TOOLBAR_ICONS.more} onClick={onMore} title="More" separator />
+        </div>
       </div>
-    </div>
 
-    {/* Add Section buttons - only for sections */}
-    {!(isFirstSection && isNavbar) && (
-      <AddSectionButton
-        position="top"
-        top={position.top}
-        left={position.left}
-        width={position.width}
-        onClick={onAddSectionTop}
-      />
-    )}
-    {!(isLastSection && isFooter) && (
-      <AddSectionButton
-        position="bottom"
-        top={position.top + position.height}
-        left={position.left}
-        width={position.width}
-        onClick={onAddSectionBottom}
-      />
-    )}
-  </>
-);
+      {/* Add Section buttons - only for sections */}
+      {!(isFirstSection && isNavbar) && (
+        <AddSectionButton
+          position="top"
+          top={position.top}
+          left={position.left}
+          width={position.width}
+          onClick={onAddSectionTop}
+        />
+      )}
+      {!(isLastSection && isFooter) && (
+        <AddSectionButton
+          position="bottom"
+          top={position.top + position.height}
+          left={position.left}
+          width={position.width}
+          onClick={onAddSectionBottom}
+        />
+      )}
+    </>
+  );
+};
 
 /**
  * Element toolbar (outside the selection, above)
@@ -196,10 +216,12 @@ export const SectionToolbar = ({
 interface ElementToolbarProps {
   position: IndicatorPosition;
   componentType: string;
+  selectedNode: any;
   onMoveLeft: () => void;
   onMoveRight: () => void;
   onLink: () => void;
   onResize: () => void;
+  onReplaceMedia: () => void;
   onDuplicate: () => void;
   onDelete: () => void;
   onMore: () => void;
@@ -208,16 +230,23 @@ interface ElementToolbarProps {
 export const ElementToolbar = ({
   position,
   componentType,
+  selectedNode,
   onMoveLeft,
   onMoveRight,
   onLink,
   onResize,
+  onReplaceMedia,
   onDuplicate,
   onDelete,
   onMore,
 }: ElementToolbarProps) => {
   // Calculate space needed - label height (~24px) + gap (8px) + toolbar height (~36px) + gap (12px)
   const toolbarOffset = 80;
+
+  // Determine which icons to show based on component type
+  const showLinkIcon = shouldShowLinkIcon(selectedNode);
+  const showResizeIcon = shouldShowResizeIcon(selectedNode);
+  const showReplaceMediaIcon = shouldShowReplaceMediaIcon(selectedNode);
 
   return (
     <>
@@ -243,9 +272,31 @@ export const ElementToolbar = ({
         <div className="flex items-center bg-white rounded-full shadow-lg px-2 py-1.5 gap-2.5">
           <ToolbarButton icon={TOOLBAR_ICONS.moveLeft} onClick={onMoveLeft} title="Move Left" />
           <ToolbarButton icon={TOOLBAR_ICONS.moveRight} onClick={onMoveRight} title="Move Right" />
-          <ToolbarButton icon={TOOLBAR_ICONS.link} onClick={onLink} title="Link" separator />
-          <ToolbarButton icon={TOOLBAR_ICONS.resize} onClick={onResize} title="Resize" />
-          <ToolbarButton icon={TOOLBAR_ICONS.duplicate} onClick={onDuplicate} title="Duplicate" />
+          {showLinkIcon && (
+            <ToolbarButton icon={TOOLBAR_ICONS.link} onClick={onLink} title="Link" separator />
+          )}
+          {showResizeIcon && (
+            <ToolbarButton 
+              icon={TOOLBAR_ICONS.resize} 
+              onClick={onResize} 
+              title="Resize" 
+              separator={!showLinkIcon}
+            />
+          )}
+          {showReplaceMediaIcon && (
+            <ToolbarButton 
+              icon={TOOLBAR_ICONS.replaceMedia} 
+              onClick={onReplaceMedia} 
+              title="Replace Media" 
+              separator={!showLinkIcon && !showResizeIcon}
+            />
+          )}
+          <ToolbarButton 
+            icon={TOOLBAR_ICONS.duplicate} 
+            onClick={onDuplicate} 
+            title="Duplicate" 
+            separator={!showLinkIcon && !showResizeIcon && !showReplaceMediaIcon}
+          />
           <ToolbarButton icon={TOOLBAR_ICONS.delete} onClick={onDelete} title="Delete" />
           <ToolbarButton icon={TOOLBAR_ICONS.more} onClick={onMore} title="More" separator />
         </div>

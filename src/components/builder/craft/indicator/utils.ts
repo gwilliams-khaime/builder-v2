@@ -129,3 +129,59 @@ export const isFooterType = (node: any): boolean => {
   const typeId = getComponentTypeId(node);
   return typeId.includes("footer");
 };
+
+/**
+ * Check if it's an image type
+ */
+export const isImageType = (node: any): boolean => {
+  const typeId = getComponentTypeId(node);
+  return typeId === "image" || typeId.includes("img");
+};
+
+/**
+ * Check if it's a button type
+ */
+export const isButtonType = (node: any): boolean => {
+  const typeId = getComponentTypeId(node);
+  return typeId === "button" || typeId.includes("btn");
+};
+
+/**
+ * Check if it's a text type
+ */
+export const isTextType = (node: any): boolean => {
+  const typeId = getComponentTypeId(node);
+  return typeId === "text" || typeId.includes("heading") || typeId.includes("paragraph");
+};
+
+/**
+ * Check if it's a link type
+ */
+export const isLinkType = (node: any): boolean => {
+  const typeId = getComponentTypeId(node);
+  return typeId === "link" || typeId.includes("anchor");
+};
+
+/**
+ * Check if component should show link icon
+ * Link icon shown for: buttons, links, and text elements
+ */
+export const shouldShowLinkIcon = (node: any): boolean => {
+  return isButtonType(node) || isLinkType(node) || isTextType(node);
+};
+
+/**
+ * Check if component should show resize icon
+ * Resize icon only shown for images
+ */
+export const shouldShowResizeIcon = (node: any): boolean => {
+  return isImageType(node);
+};
+
+/**
+ * Check if component should show replace media icon
+ * Replace media icon only shown for images
+ */
+export const shouldShowReplaceMediaIcon = (node: any): boolean => {
+  return isImageType(node);
+};
