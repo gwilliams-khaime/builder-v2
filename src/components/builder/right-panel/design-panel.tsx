@@ -1,9 +1,8 @@
 'use client';
 
-import { Box, ScrollArea } from '@mantine/core';
+import { Box, ScrollArea, Accordion } from '@mantine/core';
 import { AnimatePresence, motion } from 'framer-motion';
-import { memo, useState, useCallback } from 'react';
-import { useEditor } from '@craftjs/core';
+import { memo, useState } from 'react';
 import { Icons } from '@/icons';
 import Image from 'next/image';
 import { BackgroundDesignPanel } from './background-design-panel';
@@ -16,94 +15,65 @@ import { NavbarSettings } from './navbar-settings';
 import { ProductSettings } from './product-settings';
 import { FooterSettings } from './footer-settings';
 import { ContactFormSettings } from './contact-form-settings';
+import { useComponentPanels, shouldShowPanel, type PanelType } from './hooks';
 
 export const DesignPanel = memo(() => {
   const [activeTab] = useState<'design' | 'blocks'>('design');
-  const [component, setComponent] = useState<any | null>(null);
-  const [positionType] = useState<'flex' | 'grid' | 'none'>('none');
   
   // Mock subscription data
   const freeTrialEnded = false;
 
-  // Get selected node from Craft.js
-  const { selectedNodeId, selectedNode, actions, query } = useEditor((state, query) => {
-    const selectedIds = Array.from(state.events.selected);
-    const selectedId = selectedIds.length > 0 ? selectedIds[0] : null;
-    
-    let node = null;
-    if (selectedId) {
-      try {
-        node = state.nodes[selectedId];
-      } catch (e) {
-        node = null;
-      }
-    }
-    
-    return {
-      selectedNodeId: selectedId,
-      selectedNode: node,
-    };
-  });
+  // Get panels to show based on selected component
+  const { panels, componentId, hasSelection, componentType, selectedNode } = useComponentPanels();
 
-  // Component type definition
-  type ComponentType = 'background' | 'asset' | 'typography' | 'layout' | 'button' | 'default' | 'navbar' | 'footer' | 'product' | 'contact' | 'carousel' | 'embed';
-
-  // Get component type based on selected node
-  const getComponentType = useCallback((): ComponentType => {
-    if (!selectedNode) return 'default';
-    
-    // Get the display name from node data
-    let displayName = selectedNode.data?.displayName || 'default';
-    
-    // If type is an object with resolvedName, use that
-    const nodeType = selectedNode.data?.type;
-    if (typeof nodeType === 'object' && nodeType !== null && 'resolvedName' in nodeType) {
-      displayName = (nodeType as { resolvedName: string }).resolvedName || displayName;
-    }
-    
-    // Also check custom displayName
-    const customDisplayName = selectedNode.data?.custom?.displayName;
-    if (customDisplayName) {
-      displayName = customDisplayName;
-    }
-    
-    switch (displayName.toLowerCase()) {
-      case 'text':
-        return 'typography';
+  // Render individual panel by type
+  const renderPanel = (panelType: PanelType) => {
+    switch (panelType) {
+      case 'typography':
+        return <TypographyDesignPanel componentId={componentId} />;
       case 'button':
-        return 'button';
-      case 'image':
-        return 'asset';
-      case 'container':
-      case 'section':
-        return 'layout';
-      case 'navbar':
-      case 'header':
-      case 'navigation':
-        return 'navbar';
-      case 'footer':
-        return 'footer';
-      case 'product':
-        return 'product';
-      case 'contact':
-        return 'contact';
-      case 'carousel':
-        return 'carousel';
-      case 'embed':
-        return 'embed';
+        return <ButtonDesignPanel componentId={componentId} />;
+      case 'asset':
+        return <AssetDesignPanel componentId={componentId} />;
       case 'background':
-        return 'background';
+        return <BackgroundDesignPanel componentId={componentId} />;
+      case 'layout':
+        return <LayoutDesignPanel componentId={componentId} />;
+      case 'grid':
+        return <GridDesignPanel componentId={componentId} />;
+      case 'navbar-settings':
+        return <NavbarSettings freeTrialEnded={freeTrialEnded} />;
+      case 'footer-settings':
+        return <FooterSettings freeTrialEnded={freeTrialEnded} />;
+      case 'product-settings':
+        return <ProductSettings freeTrialEnded={freeTrialEnded} selectedComponent={selectedNode} />;
+      case 'contact-settings':
+        return <ContactFormSettings selectedComponent={selectedNode} />;
       default:
-        return 'default';
+        return null;
     }
-  }, [selectedNode]);
+  };
 
-  const componentType = getComponentType();
-  const componentId = selectedNodeId || '';
+  // Get panel display name for accordion headers
+  const getPanelDisplayName = (panelType: PanelType): string => {
+    const names: Record<PanelType, string> = {
+      'typography': 'Typography',
+      'button': 'Button Style',
+      'asset': 'Image & Media',
+      'background': 'Background',
+      'layout': 'Layout',
+      'grid': 'Grid',
+      'navbar-settings': 'Navbar Settings',
+      'footer-settings': 'Footer Settings',
+      'product-settings': 'Product Settings',
+      'contact-settings': 'Contact Form',
+    };
+    return names[panelType] || panelType;
+  };
 
-  // Render the appropriate design panel based on component type
-  const renderDesignPanel = () => {
-    if (!componentId) {
+  // Render the appropriate design panel(s) based on component type
+  const renderDesignPanels = () => {
+    if (!hasSelection) {
       return (
         <div className="w-full h-[calc(100vh-180px)] bg-white flex flex-col items-center justify-center flex-1">
           {/* Empty State Section */}
@@ -131,7 +101,7 @@ export const DesignPanel = memo(() => {
             </p>
           </div>
 
-          {/* Quick Tips Section - adjusted padding to align with sidebar */}
+          {/* Quick Tips Section */}
           <div className="p-4 mt-auto bg-[#F6F6F6] rounded-2xl">
             {/* Tips Header */}
             <div className="flex items-center gap-2 mb-4">
@@ -140,65 +110,53 @@ export const DesignPanel = memo(() => {
             </div>
 
             {/* Tips List */}
-            {(() => {
-              const tips = [
+            <ul className="space-y-3">
+              {[
                 'Double–click any text to start editing immediately.',
                 'Click any element to see more options on your right panel (Right here...)',
                 'Move sections up or down to reorder your layout.',
                 'Use "Preview" to see how your website looks on mobile before publishing.',
                 'Use the Left panel to quickly update your fonts and colors globally (Coming Soon).',
-              ];
-              return (
-                <ul className="space-y-3">
-                  {tips.map((tip, idx) => (
-                    <li key={idx} className="flex gap-3">
-                      <span className="text-gray-400 text-xs flex-shrink-0 mt-0.5">•</span>
-                      <span className="text-gray-700 text-[11px] leading-relaxed">{tip}</span>
-                    </li>
-                  ))}
-                </ul>
-              );
-            })()}
+              ].map((tip, idx) => (
+                <li key={idx} className="flex gap-3">
+                  <span className="text-gray-400 text-xs flex-shrink-0 mt-0.5">•</span>
+                  <span className="text-gray-700 text-[11px] leading-relaxed">{tip}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       );
     }
 
-    switch (componentType) {
-      case 'background':
-        return <BackgroundDesignPanel componentId={componentId} />;
-      case 'asset':
-        return <AssetDesignPanel componentId={componentId} />;
-      case 'typography':
-        return <TypographyDesignPanel componentId={componentId} />;
-      case 'layout':
-        // Show grid panel for grid position, flex panel for flex position
-        if (positionType === 'grid') {
-          return <GridDesignPanel componentId={componentId} />;
-        } else if (positionType === 'flex') {
-          return <LayoutDesignPanel componentId={componentId} />;
-        } else {
-          // Default to flex panel if no position type detected
-          return <LayoutDesignPanel componentId={componentId} />;
-        }
-      case 'button':
-        return <ButtonDesignPanel componentId={componentId} />;
-      case 'navbar':
-        return <NavbarSettings freeTrialEnded={freeTrialEnded} />;
-      case 'product':
-        return <ProductSettings freeTrialEnded={freeTrialEnded} selectedComponent={component} />;
-      case 'footer':
-        return <FooterSettings freeTrialEnded={freeTrialEnded} />;
-      case 'contact':
-        return <ContactFormSettings selectedComponent={component} />;
-      default:
-        return (
-          <div className="text-center text-gray-500 py-8">
-            <p className="text-sm">Default Design Panel</p>
-            <p className="text-xs mt-2">General styling options will be here</p>
-          </div>
-        );
+    // If only one panel, render it directly without accordion
+    if (panels.length === 1) {
+      return renderPanel(panels[0]);
     }
+
+    // Multiple panels - render as accordion
+    return (
+      <Accordion
+        defaultValue={panels}
+        multiple
+        variant="separated"
+        classNames={{
+          root: 'space-y-2',
+          item: 'border border-gray-200 rounded-lg overflow-hidden',
+          control: 'py-3 px-4 hover:bg-gray-50',
+          label: 'text-sm font-medium text-gray-700',
+          panel: 'px-4 pb-4',
+          chevron: 'text-gray-400',
+        }}
+      >
+        {panels.map((panelType) => (
+          <Accordion.Item key={panelType} value={panelType}>
+            <Accordion.Control>{getPanelDisplayName(panelType)}</Accordion.Control>
+            <Accordion.Panel>{renderPanel(panelType)}</Accordion.Panel>
+          </Accordion.Item>
+        ))}
+      </Accordion>
+    );
   };
 
   return (
@@ -232,10 +190,15 @@ export const DesignPanel = memo(() => {
                   <div className="flex items-center gap-2 px-4 pt-4 mb-4">
                     <Icons.SolarPallette />
                     <h1 className="font-semibold text-lg">Design</h1>
+                    {hasSelection && (
+                      <span className="text-xs text-gray-500 ml-auto capitalize">
+                        {componentType}
+                      </span>
+                    )}
                   </div>
 
                   {/* Dynamic Design Panel Content */}
-                  <div className="px-4 pb-4">{renderDesignPanel()}</div>
+                  <div className="px-4 pb-4">{renderDesignPanels()}</div>
                 </ScrollArea.Autosize>
               </Box>
 
@@ -247,7 +210,7 @@ export const DesignPanel = memo(() => {
                 className="md:hidden block p-0"
               >
                 {/* Dynamic Design Panel Content */}
-                <div className="p-4">{renderDesignPanel()}</div>
+                <div className="p-4">{renderDesignPanels()}</div>
               </Box>
             </>
           ) : null}
