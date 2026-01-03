@@ -5,11 +5,12 @@ import { SectionType } from './section-templates-data';
 
 export type SectionModalActionType = 'add' | 'replace' | null;
 export type LayoutType = 'grid' | 'list';
+export type InsertPosition = 'above' | 'below' | null;
 
 interface SelectSectionContextType {
   // Modal state
   isModalOpen: boolean;
-  openModal: (actionType: SectionModalActionType, defaultSection?: SectionType) => void;
+  openModal: (actionType: SectionModalActionType, defaultSection?: SectionType, position?: InsertPosition) => void;
   closeModal: () => void;
   
   // Selected section type (sidebar selection)
@@ -27,9 +28,13 @@ interface SelectSectionContextType {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   
-  // Target node ID (for replacement)
+  // Target node ID (for replacement or position reference)
   targetNodeId: string | null;
   setTargetNodeId: (id: string | null) => void;
+  
+  // Insert position (above or below the target node)
+  insertPosition: InsertPosition;
+  setInsertPosition: (position: InsertPosition) => void;
 }
 
 const SelectSectionContext = createContext<SelectSectionContextType | undefined>(undefined);
@@ -45,11 +50,15 @@ export const SelectSectionProvider = ({ children }: SelectSectionProviderProps) 
   const [actionType, setActionType] = useState<SectionModalActionType>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [targetNodeId, setTargetNodeId] = useState<string | null>(null);
+  const [insertPosition, setInsertPosition] = useState<InsertPosition>(null);
 
-  const openModal = useCallback((action: SectionModalActionType, defaultSection?: SectionType) => {
+  const openModal = useCallback((action: SectionModalActionType, defaultSection?: SectionType, position?: InsertPosition) => {
     setActionType(action);
     if (defaultSection) {
       setSelectedSection(defaultSection);
+    }
+    if (position) {
+      setInsertPosition(position);
     }
     setSearchTerm('');
     setIsModalOpen(true);
@@ -59,6 +68,7 @@ export const SelectSectionProvider = ({ children }: SelectSectionProviderProps) 
     setIsModalOpen(false);
     setActionType(null);
     setTargetNodeId(null);
+    setInsertPosition(null);
     setSearchTerm('');
   }, []);
 
@@ -75,6 +85,8 @@ export const SelectSectionProvider = ({ children }: SelectSectionProviderProps) 
     setSearchTerm,
     targetNodeId,
     setTargetNodeId,
+    insertPosition,
+    setInsertPosition,
   };
 
   return (

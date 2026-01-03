@@ -323,16 +323,20 @@ export const Indicator = () => {
   
   // Handle Add Section Top - adds section before current
   const handleAddSectionTop = () => {
-    // Open modal for adding a new section
-    // The section will be added before the currently selected section
-    openModal('add', 'hero');
+    if (!selectedId) return;
+    // Set the target node ID so we know which section to insert relative to
+    setTargetNodeId(selectedId);
+    // Open modal for adding a new section above the current one
+    openModal('add', 'hero', 'above');
   };
   
   // Handle Add Section Bottom - adds section after current  
   const handleAddSectionBottom = () => {
-    // Open modal for adding a new section
-    // The section will be added after the currently selected section
-    openModal('add', 'hero');
+    if (!selectedId) return;
+    // Set the target node ID so we know which section to insert relative to
+    setTargetNodeId(selectedId);
+    // Open modal for adding a new section below the current one
+    openModal('add', 'hero', 'below');
   };
 
   // Render section toolbar

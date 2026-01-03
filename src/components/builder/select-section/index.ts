@@ -1,5 +1,5 @@
 export { SectionsModal } from './sections-modal';
-export { SelectSectionProvider, useSelectSection } from './select-section-context';
+export { SelectSectionProvider, useSelectSection, type InsertPosition } from './select-section-context';
 export { ResponsiveIframePreview } from './responsive-iframe-preview';
 export {
   SECTION_TYPES,

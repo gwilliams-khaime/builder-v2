@@ -35,6 +35,7 @@ export const SectionsModal = () => {
     searchTerm,
     setSearchTerm,
     targetNodeId,
+    insertPosition,
   } = useSelectSection();
 
   const { actions: editorActions, query: editorQuery } = useEditor();
@@ -76,8 +77,21 @@ export const SectionsModal = () => {
           editorActions.delete(targetNodeId);
           insertIndex = replaceIndex;
         }
+      } else if (actionType === 'add' && targetNodeId && insertPosition) {
+        // Add section relative to the target node based on insert position
+        const targetIndex = siblings.indexOf(targetNodeId);
+        
+        if (targetIndex !== -1) {
+          if (insertPosition === 'above') {
+            // Insert before the target section
+            insertIndex = targetIndex;
+          } else if (insertPosition === 'below') {
+            // Insert after the target section
+            insertIndex = targetIndex + 1;
+          }
+        }
       } else {
-        // Add section - find position based on currently selected section or at the end
+        // Fallback: Add at the end or after the currently selected section
         const selectedIds = editorQuery.getEvent('selected').all();
         if (selectedIds.length > 0) {
           const selectedId = selectedIds[0];
