@@ -14,8 +14,10 @@ import {
   isLastSection,
   isNavbarType,
   isFooterType,
+  getSectionTypeFromNode,
 } from "./utils";
 import type { IndicatorPosition } from "./types";
+import { useSelectSection, SectionType } from "../../select-section";
 
 /**
  * Indicator component that shows hover/selection outlines with toolbar
@@ -27,6 +29,9 @@ import type { IndicatorPosition } from "./types";
  * - Hover indicator for hovered components
  */
 export const Indicator = () => {
+  // Get select section context
+  const { openModal, setTargetNodeId } = useSelectSection();
+  
   // Get editor state and actions
   const { 
     selectedId, 
@@ -301,9 +306,34 @@ export const Indicator = () => {
 
   const handleMore = () => console.log("More options clicked", { selectedId, selectedType });
   const handleSettings = () => console.log("Settings clicked", { selectedId, selectedType });
-  const handleReplace = () => console.log("Replace clicked", { selectedId, selectedType });
-  const handleAddSectionTop = () => console.log("Add Section Top clicked", { selectedId, selectedType });
-  const handleAddSectionBottom = () => console.log("Add Section Bottom clicked", { selectedId, selectedType });
+  
+  // Handle Replace - opens modal with section type pre-selected
+  const handleReplace = () => {
+    if (!selectedId || !selectedNode) return;
+    
+    // Get the section type from the selected node
+    const sectionType = getSectionTypeFromNode(selectedNode);
+    
+    // Set the target node ID for replacement
+    setTargetNodeId(selectedId);
+    
+    // Open the modal with replace action and the current section type
+    openModal('replace', sectionType as SectionType || 'hero');
+  };
+  
+  // Handle Add Section Top - adds section before current
+  const handleAddSectionTop = () => {
+    // Open modal for adding a new section
+    // The section will be added before the currently selected section
+    openModal('add', 'hero');
+  };
+  
+  // Handle Add Section Bottom - adds section after current  
+  const handleAddSectionBottom = () => {
+    // Open modal for adding a new section
+    // The section will be added after the currently selected section
+    openModal('add', 'hero');
+  };
 
   // Render section toolbar
   const renderSectionToolbar = () => {

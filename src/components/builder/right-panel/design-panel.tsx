@@ -15,7 +15,7 @@ import { NavbarSettings } from './navbar-settings';
 import { ProductSettings } from './product-settings';
 import { FooterSettings } from './footer-settings';
 import { ContactFormSettings } from './contact-form-settings';
-import { useComponentPanels, shouldShowPanel, type PanelType } from './hooks';
+import { useComponentPanels, shouldShowPanel, type PanelType } from '@/hooks';
 
 export const DesignPanel = memo(() => {
   const [activeTab] = useState<'design' | 'blocks'>('design');

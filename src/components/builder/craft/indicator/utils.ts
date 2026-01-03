@@ -233,3 +233,43 @@ export const shouldShowResizeIcon = (node: any): boolean => {
 export const shouldShowReplaceMediaIcon = (node: any): boolean => {
   return isImageType(node);
 };
+
+/**
+ * Get the section type from a node for template selection
+ * Returns a normalized section type string that matches SECTION_TYPES
+ */
+export const getSectionTypeFromNode = (node: any): string | null => {
+  if (!node) return null;
+  
+  // First check custom.componentType which is the most reliable
+  const customType = node.data?.custom?.componentType;
+  if (customType) {
+    return customType.toLowerCase().replace(/\s+/g, '_');
+  }
+  
+  // Check custom.displayName and try to extract type
+  const customDisplayName = node.data?.custom?.displayName;
+  if (customDisplayName) {
+    // Remove "Section" suffix if present and normalize
+    const normalized = customDisplayName
+      .toLowerCase()
+      .replace(/\s+section$/i, '')
+      .replace(/\s+/g, '_');
+    return normalized;
+  }
+  
+  // Fallback to checking type name
+  const nodeType = node.data?.type;
+  let typeName = "";
+  if (typeof nodeType === 'object' && nodeType !== null) {
+    typeName = (nodeType.resolvedName || "").toLowerCase();
+  } else if (typeof nodeType === 'string') {
+    typeName = nodeType.toLowerCase();
+  }
+  
+  if (typeName === 'section') {
+    return 'hero'; // Default section type
+  }
+  
+  return typeName || null;
+};

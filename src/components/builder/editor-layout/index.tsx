@@ -7,6 +7,7 @@ import { RightPanel } from '../right-panel';
 import { CraftEditor } from '../craft';
 import { Indicator } from '../craft/indicator';
 import { cn } from '@/lib/utils';
+import { SelectSectionProvider, SectionsModal } from '../select-section';
 
 interface EditorLayoutProps {
   children: ReactNode;
@@ -42,39 +43,44 @@ export const EditorLayout = ({ children }: EditorLayoutProps) => {
   };
 
   return (
-    <CraftEditor enabled={true}>
-      <div className="flex flex-col h-screen w-full bg-white text-slate-900">
-        <EditorHeader device={device} setDevice={setDevice} />
-        <div className="flex flex-1 overflow-hidden relative">
-          {/* Left Panel (Sidebar + Drawer) - Now sibling to Main, not absolute */}
-          <LeftPanel 
-              isOpen={leftPanelOpen} 
-              activeTab={activeTab} 
-              onTabClick={handleTabClick}
-              onClose={handleCloseLeftPanel}
-          />
-          
-          {/* Main Canvas Area */}
-          <main className="flex-1 overflow-auto bg-[#F6F6F6] relative p-4 transition-all duration-300">
-              <div className={cn(
-                "h-full bg-white rounded-lg relative shadow-sm mx-auto transition-all duration-300",
-                device === "mobile" ? "max-w-[375px]" :
-                device === "tablet" ? "max-w-[768px]" :
-                "w-full"
-              )}>
-                  <div className="craftjs-renderer w-full h-full">
-                      {children}
-                  </div>
-              </div>
-          </main>
+    <SelectSectionProvider>
+      <CraftEditor enabled={true}>
+        <div className="flex flex-col h-screen w-full bg-white text-slate-900">
+          <EditorHeader device={device} setDevice={setDevice} />
+          <div className="flex flex-1 overflow-hidden relative">
+            {/* Left Panel (Sidebar + Drawer) - Now sibling to Main, not absolute */}
+            <LeftPanel 
+                isOpen={leftPanelOpen} 
+                activeTab={activeTab} 
+                onTabClick={handleTabClick}
+                onClose={handleCloseLeftPanel}
+            />
+            
+            {/* Main Canvas Area */}
+            <main className="flex-1 overflow-auto bg-[#F6F6F6] relative p-4 transition-all duration-300">
+                <div className={cn(
+                  "h-full bg-white rounded-lg relative shadow-sm mx-auto transition-all duration-300",
+                  device === "mobile" ? "max-w-[375px]" :
+                  device === "tablet" ? "max-w-[768px]" :
+                  "w-full"
+                )}>
+                    <div className="craftjs-renderer w-full h-full">
+                        {children}
+                    </div>
+                </div>
+            </main>
 
-          {/* Right Panel */}
-          <RightPanel isOpen={rightPanelOpen} />
+            {/* Right Panel */}
+            <RightPanel isOpen={rightPanelOpen} />
+          </div>
         </div>
-      </div>
-      
-      {/* Craft.js Indicator for hover/selection outlines */}
-      <Indicator />
-    </CraftEditor>
+        
+        {/* Craft.js Indicator for hover/selection outlines */}
+        <Indicator />
+        
+        {/* Sections Modal for adding/replacing sections */}
+        <SectionsModal />
+      </CraftEditor>
+    </SelectSectionProvider>
   );
 };
