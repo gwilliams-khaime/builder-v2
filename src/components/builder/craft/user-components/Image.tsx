@@ -10,6 +10,7 @@ export interface ImageProps {
   height?: string;
   objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
   borderRadius?: number;
+  href?: string;
 }
 
 export const Image = ({
@@ -19,6 +20,7 @@ export const Image = ({
   height = "auto",
   objectFit = "cover",
   borderRadius = 0,
+  href = "",
 }: ImageProps) => {
   const {
     connectors: { connect, drag },
@@ -51,6 +53,7 @@ Image.craft = {
     height: "auto",
     objectFit: "cover",
     borderRadius: 0,
+    href: "",
   },
   rules: {
     canDrag: () => true,

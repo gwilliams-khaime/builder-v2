@@ -147,10 +147,21 @@ export const isFooterType = (node: any): boolean => {
 
 /**
  * Check if it's an image type
+ * Uses type.resolvedName directly for reliable detection
  */
 export const isImageType = (node: any): boolean => {
-  const typeId = getComponentTypeId(node);
-  return typeId === "image" || typeId.includes("img");
+  if (!node) return false;
+  const nodeType = node.data?.type;
+  let typeName = "";
+  if (typeof nodeType === 'object' && nodeType !== null) {
+    typeName = (nodeType.resolvedName || "").toLowerCase();
+  } else if (typeof nodeType === 'string') {
+    typeName = nodeType.toLowerCase();
+  } else if (typeof nodeType === 'function') {
+    // Craft.js stores the component function directly
+    typeName = (nodeType.craft?.displayName || nodeType.name || "").toLowerCase();
+  }
+  return typeName === "image";
 };
 
 /**
@@ -201,10 +212,10 @@ export const isLinkType = (node: any): boolean => {
 
 /**
  * Check if component should show link icon
- * Link icon shown for: buttons, links, and text elements
+ * Link icon shown for: buttons, links, text elements, and images
  */
 export const shouldShowLinkIcon = (node: any): boolean => {
-  return isButtonType(node) || isLinkType(node) || isTextType(node);
+  return isButtonType(node) || isLinkType(node) || isTextType(node) || isImageType(node);
 };
 
 /**
