@@ -25,11 +25,11 @@ export const ToolbarButton = ({
   separator = false 
 }: ToolbarButtonProps) => (
   <div className="flex items-center gap-2">
-    {separator && <div className="w-px h-6 bg-gray-200" />}
+    {separator && <div className="w-px h-6 bg-border" />}
     <button
       onClick={onClick}
       title={title}
-      className="w-6 h-6 cursor-pointer flex items-center justify-center hover:bg-gray-100 rounded-lg transition-colors"
+      className="w-6 h-6 cursor-pointer flex items-center justify-center hover:bg-secondary rounded-lg transition-colors"
     >
       {icon}
     </button>
@@ -48,7 +48,7 @@ export const AddSectionButton = ({
 }: AddSectionButtonProps) => (
   <button
     onClick={onClick}
-    className="flex items-center gap-1.5 px-4 py-2 bg-[#42C3FF] cursor-pointer hover:bg-[#3BB8F0] text-white rounded-full shadow-lg transition-colors"
+    className="flex items-center gap-1.5 px-4 py-2 bg-primary cursor-pointer hover:bg-primary/80 text-white rounded-full shadow-lg transition-colors"
     style={{
       position: "fixed",
       top: position === "top" ? top - 14 : top - 16,
@@ -165,7 +165,7 @@ export const SectionToolbar = ({
           pointerEvents: "auto",
         }}
       >
-        <div className="flex items-center bg-white rounded-full shadow-lg px-2 py-1.5 gap-2.5">
+        <div className="flex items-center bg-secondary text-secondary-foreground rounded-full shadow-lg px-2 py-1.5 gap-2.5">
           {showMoveUp && (
             <ToolbarButton icon={TOOLBAR_ICONS.moveUp} onClick={onMoveUp} title="Move Up" />
           )}
@@ -269,7 +269,7 @@ export const ElementToolbar = ({
           pointerEvents: "auto",
         }}
       >
-        <div className="flex items-center bg-white rounded-full shadow-lg px-2 py-1.5 gap-2.5">
+      <div className="flex items-center bg-secondary text-secondary-foreground rounded-full shadow-lg px-2 py-1.5 gap-2.5">
           <ToolbarButton icon={TOOLBAR_ICONS.moveLeft} onClick={onMoveLeft} title="Move Left" />
           <ToolbarButton icon={TOOLBAR_ICONS.moveRight} onClick={onMoveRight} title="Move Right" />
           {showLinkIcon && (

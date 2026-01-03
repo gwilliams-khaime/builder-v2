@@ -75,7 +75,7 @@ export const DesignPanel = memo(() => {
   const renderDesignPanels = () => {
     if (!hasSelection) {
       return (
-        <div className="w-full h-[calc(100vh-180px)] bg-white flex flex-col items-center justify-center flex-1">
+        <div className="w-full h-[calc(100vh-180px)] bg-panel flex flex-col items-center justify-center flex-1">
           {/* Empty State Section */}
           <div className="flex-1 h-full flex flex-col items-center justify-center p-4">
             {/* Cursor Icon in Circle */}
@@ -91,22 +91,22 @@ export const DesignPanel = memo(() => {
             </div>
 
             {/* Title */}
-            <h2 className="text-base font-semibold text-[#161616] mb-2 text-center">
+            <h2 className="text-base font-semibold text-foreground mb-2 text-center">
               Nothing Selected yet
             </h2>
 
             {/* Description */}
-            <p className="text-center text-[#323232] text-sm leading-relaxed">
+            <p className="text-center text-muted-foreground text-sm leading-relaxed">
               Click any section, text, or image on the canvas to edit its settings here.
             </p>
           </div>
 
           {/* Quick Tips Section */}
-          <div className="p-4 mt-auto bg-[#F6F6F6] rounded-2xl">
+          <div className="p-4 mt-auto bg-secondary rounded-2xl">
             {/* Tips Header */}
             <div className="flex items-center gap-2 mb-4">
               <Icons.KaiLogo className="w-5 h-5 text-primary flex-shrink-0" />
-              <h3 className="font-bold text-gray-900 text-sm">Quick tips - Kai</h3>
+              <h3 className="font-bold text-foreground text-sm">Quick tips - Kai</h3>
             </div>
 
             {/* Tips List */}
@@ -119,8 +119,8 @@ export const DesignPanel = memo(() => {
                 'Use the Left panel to quickly update your fonts and colors globally (Coming Soon).',
               ].map((tip, idx) => (
                 <li key={idx} className="flex gap-3">
-                  <span className="text-gray-400 text-xs flex-shrink-0 mt-0.5">•</span>
-                  <span className="text-gray-700 text-[11px] leading-relaxed">{tip}</span>
+                  <span className="text-muted-foreground text-xs flex-shrink-0 mt-0.5">•</span>
+                  <span className="text-muted-foreground text-[11px] leading-relaxed">{tip}</span>
                 </li>
               ))}
             </ul>
@@ -142,11 +142,11 @@ export const DesignPanel = memo(() => {
         variant="separated"
         classNames={{
           root: 'space-y-2',
-          item: 'border border-gray-200 rounded-lg overflow-hidden',
-          control: 'py-3 px-4 hover:bg-gray-50',
-          label: 'text-sm font-medium text-gray-700',
+          item: 'border border-border rounded-lg overflow-hidden bg-card',
+          control: 'py-3 px-4 hover:bg-panel-hover',
+          label: 'text-sm font-medium text-foreground',
           panel: 'px-4 pb-4',
-          chevron: 'text-gray-400',
+          chevron: 'text-muted-foreground',
         }}
       >
         {panels.map((panelType) => (
@@ -180,7 +180,7 @@ export const DesignPanel = memo(() => {
                 className="md:block hidden p-0"
               >
                 <ScrollArea.Autosize
-                  className="overflow-y-auto p-0"
+                  className="overflow-y-auto p-0 custom-scrollbar"
                   style={{
                     height: 'calc(100vh - 100px)',
                     pointerEvents: freeTrialEnded ? 'none' : 'auto',
@@ -188,13 +188,13 @@ export const DesignPanel = memo(() => {
                 >
                   {/* Header */}
                   <div className="flex items-center gap-2 px-4 pt-4 mb-4">
-                    <Icons.SolarPallette />
-                    <h1 className="font-semibold text-lg">Design</h1>
-                    {hasSelection && (
-                      <span className="text-xs text-gray-500 ml-auto capitalize">
+                    <Icons.SolarPallette className="text-foreground" />
+                    <h1 className="font-semibold text-lg text-foreground">Design</h1>
+                    {/* {hasSelection && (
+                      <span className="text-xs text-muted-foreground ml-auto capitalize">
                         {componentType}
                       </span>
-                    )}
+                    )} */}
                   </div>
 
                   {/* Dynamic Design Panel Content */}

@@ -14,31 +14,31 @@ export function GridDesignPanel({ componentId }: GridDesignPanelProps) {
 
   return (
     <div className="space-y-4">
-      <div className="text-sm font-medium text-gray-700">Grid Settings</div>
+      <div className="text-sm font-medium text-foreground">Grid Settings</div>
       
       {/* Grid Columns */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600">Grid Columns</label>
+        <label className="text-xs text-muted-foreground">Grid Columns</label>
         <input
           type="text"
           value={gridColumns}
-          className="w-full px-3 py-2 border rounded text-xs"
+          className="w-full px-3 py-2 border border-border bg-input text-foreground rounded text-xs"
           readOnly
         />
       </div>
 
       {/* Grid Gap */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600">Grid Gap</label>
+        <label className="text-xs text-muted-foreground">Grid Gap</label>
         <input
           type="text"
           value={gridGap}
-          className="w-full px-3 py-2 border rounded text-xs"
+          className="w-full px-3 py-2 border border-border bg-input text-foreground rounded text-xs"
           readOnly
         />
       </div>
 
-      <div className="text-xs text-gray-500 mt-4">
+      <div className="text-xs text-muted-foreground mt-4">
         Component ID: {componentId || 'none'}
       </div>
     </div>

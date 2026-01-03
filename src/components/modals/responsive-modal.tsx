@@ -190,7 +190,7 @@ export function ResponsiveModal({
         >
           <motion.div
             className={cn(
-              'bg-white flex flex-col',
+              'bg-popover text-popover-foreground flex flex-col',
               shouldCenter ? 'm-auto' : 'mt-auto w-full',
               className
             )}
@@ -219,16 +219,16 @@ export function ResponsiveModal({
           >
             {swipeToClose && !shouldCenter && (
               <div className="w-full flex justify-center py-2 flex-shrink-0">
-                <div className="w-10 h-1 bg-gray-300 rounded-full"></div>
+                <div className="w-10 h-1 bg-muted-foreground/30 rounded-full"></div>
               </div>
             )}
 
             {title && (
-              <div className="px-4 py-3 border-b flex justify-between items-center flex-shrink-0 font-inter">
-                <h3 className="font-medium">{title}</h3>
+              <div className="px-4 py-3 border-b border-border flex justify-between items-center flex-shrink-0 font-inter">
+                <h3 className="font-medium text-foreground">{title}</h3>
                 <div className="flex items-center gap-2">
                   {!shouldCenter && swipeToClose && (
-                    <div className="flex items-center gap-1 text-[#545454] text-sm">
+                    <div className="flex items-center gap-1 text-muted-foreground text-sm">
                       <span>Swipe to close</span>
                       <motion.svg
                         width="16"
@@ -245,7 +245,7 @@ export function ResponsiveModal({
                       >
                         <path
                           d="M5.33317 8.66602L7.99984 11.3327L10.6665 8.66602M5.33317 4.66602L7.99984 7.33268L10.6665 4.66602"
-                          stroke="#545454"
+                          className="stroke-muted-foreground"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
@@ -253,7 +253,7 @@ export function ResponsiveModal({
                     </div>
                   )}
                   {withCloseButton && (
-                    <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-100">
+                    <button onClick={onClose} className="p-1 rounded-full hover:bg-secondary text-foreground">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"

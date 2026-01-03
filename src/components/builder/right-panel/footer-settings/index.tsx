@@ -18,12 +18,12 @@ export const FooterSettings = ({ freeTrialEnded }: FooterSettingsProps) => {
 
   return (
     <div className="space-y-4">
-      <div className="text-sm font-medium text-gray-700">Footer Settings</div>
+      <div className="text-sm font-medium text-foreground">Footer Settings</div>
       
       {/* Color Scheme */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600">Color Scheme</label>
-        <select className="w-full px-3 py-2 border rounded text-xs" value={colorScheme}>
+        <label className="text-xs text-muted-foreground">Color Scheme</label>
+        <select className="w-full px-3 py-2 border border-border bg-input text-foreground rounded text-xs" value={colorScheme}>
           <option value="light">Light</option>
           <option value="dark">Dark</option>
           <option value="brand">Brand</option>
@@ -32,27 +32,27 @@ export const FooterSettings = ({ freeTrialEnded }: FooterSettingsProps) => {
 
       {/* Logo Type */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600">Logo Type</label>
+        <label className="text-xs text-muted-foreground">Logo Type</label>
         <div className="flex gap-2">
-          <button className="px-3 py-2 bg-gray-100 rounded text-xs">Icon</button>
-          <button className="px-3 py-2 bg-gray-100 rounded text-xs">Word</button>
+          <button className="px-3 py-2 bg-secondary text-foreground hover:bg-panel-hover rounded text-xs transition-colors">Icon</button>
+          <button className="px-3 py-2 bg-secondary text-foreground hover:bg-panel-hover rounded text-xs transition-colors">Word</button>
         </div>
       </div>
 
       {/* Contact Information */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600">Contact Information</label>
+        <label className="text-xs text-muted-foreground">Contact Information</label>
         <div className="space-y-1">
-          <label className="text-xs flex items-center gap-2">
-            <input type="checkbox" checked={showAddress} readOnly className="rounded" />
+          <label className="text-xs text-foreground flex items-center gap-2">
+            <input type="checkbox" checked={showAddress} readOnly className="rounded accent-primary" />
             Show Address
           </label>
-          <label className="text-xs flex items-center gap-2">
-            <input type="checkbox" checked={showPhone} readOnly className="rounded" />
+          <label className="text-xs text-foreground flex items-center gap-2">
+            <input type="checkbox" checked={showPhone} readOnly className="rounded accent-primary" />
             Show Phone
           </label>
-          <label className="text-xs flex items-center gap-2">
-            <input type="checkbox" checked={showEmail} readOnly className="rounded" />
+          <label className="text-xs text-foreground flex items-center gap-2">
+            <input type="checkbox" checked={showEmail} readOnly className="rounded accent-primary" />
             Show Email
           </label>
         </div>
@@ -60,8 +60,8 @@ export const FooterSettings = ({ freeTrialEnded }: FooterSettingsProps) => {
 
       {/* Newsletter */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600 flex items-center gap-2">
-          <input type="checkbox" checked={showNewsletter} readOnly className="rounded" />
+        <label className="text-xs text-foreground flex items-center gap-2">
+          <input type="checkbox" checked={showNewsletter} readOnly className="rounded accent-primary" />
           Show Newsletter
         </label>
       </div>

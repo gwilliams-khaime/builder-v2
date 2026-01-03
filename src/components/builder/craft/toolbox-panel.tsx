@@ -18,10 +18,10 @@ const ToolboxItem = ({ name, icon, component }: ToolboxItemProps) => {
       ref={(ref) => {
         if (ref) connectors.create(ref, component);
       }}
-      className="flex flex-col items-center justify-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg cursor-grab active:cursor-grabbing transition-colors border border-gray-200 hover:border-blue-300"
+      className="flex flex-col items-center justify-center p-3 bg-secondary hover:bg-panel-hover rounded-lg cursor-grab active:cursor-grabbing transition-colors border border-border hover:border-primary/50"
     >
-      <div className="text-gray-600 mb-1">{icon}</div>
-      <span className="text-xs text-gray-600 font-medium">{name}</span>
+      <div className="text-muted-foreground mb-1">{icon}</div>
+      <span className="text-xs text-muted-foreground font-medium">{name}</span>
     </div>
   );
 };
@@ -36,7 +36,7 @@ const ToolboxItem = ({ name, icon, component }: ToolboxItemProps) => {
 export const ToolboxPanel = () => {
   return (
     <div className="p-4">
-      <h3 className="text-sm font-semibold text-gray-700 mb-4">Basic Elements</h3>
+      <h3 className="text-sm font-semibold text-foreground mb-4">Basic Elements</h3>
       
       <div className="grid grid-cols-2 gap-3">
         {/* Container */}
@@ -106,7 +106,7 @@ export const ToolboxPanel = () => {
         />
       </div>
 
-      <h3 className="text-sm font-semibold text-gray-700 mb-4 mt-6">Layout</h3>
+      <h3 className="text-sm font-semibold text-foreground mb-4 mt-6">Layout</h3>
       
       <div className="grid grid-cols-2 gap-3">
         {/* Two Column */}

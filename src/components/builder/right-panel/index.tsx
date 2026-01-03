@@ -31,13 +31,13 @@ export function RightPanel({ isOpen }: RightPanelProps) {
           animate={{ width: 348, opacity: 1 }}
           exit={{ width: 0, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="h-full bg-white border-l border-[#E0E0E0] overflow-hidden relative z-20"
+          className="h-full bg-panel border-l border-border overflow-hidden relative z-20"
         >
           <div className="w-[348px] h-full">
             <div
               key="properties-aside"
               data-testid="properties-panel"
-              className="bg-white h-full relative flex-shrink-0 flex flex-col overflow-hidden"
+              className="bg-panel h-full relative flex-shrink-0 flex flex-col overflow-hidden"
             >
               {subscriptionPlans && !freeTrialEnded && subscription_status === 'trialing' && (
                 <div className="bg-[#F89725] px-[10px] rounded-t-2xl h-[44px] flex items-center justify-between">
@@ -75,12 +75,12 @@ export function RightPanel({ isOpen }: RightPanelProps) {
                       duration: 0.4,
                       ease: 'easeInOut',
                     }}
-                    className="absolute inset-0 bg-white"
+                    className="absolute inset-0 bg-panel"
                   >
                     {mode === 'kai' ? (
                       <div data-testid="kai-chat-panel">
                         {/* Kai Chat Panel placeholder - removed integration */}
-                        <div className="p-4 text-center text-gray-500">
+                        <div className="p-4 text-center text-muted-foreground">
                           <p>Kai Chat Panel</p>
                           <p className="text-xs mt-2">UI placeholder - integration removed</p>
                         </div>

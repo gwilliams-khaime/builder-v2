@@ -14,22 +14,22 @@ export function ButtonDesignPanel({ componentId }: ButtonDesignPanelProps) {
 
   return (
     <div className="space-y-4">
-      <div className="text-sm font-medium text-gray-700">Button Settings</div>
+      <div className="text-sm font-medium text-foreground">Button Settings</div>
       
       {/* Button Style */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600">Button Style</label>
+        <label className="text-xs text-muted-foreground">Button Style</label>
         <div className="flex gap-2">
-          <button className="px-3 py-2 bg-gray-100 rounded text-xs">Primary</button>
-          <button className="px-3 py-2 bg-gray-100 rounded text-xs">Secondary</button>
-          <button className="px-3 py-2 bg-gray-100 rounded text-xs">Links</button>
+          <button className="px-3 py-2 bg-secondary text-foreground hover:bg-panel-hover rounded text-xs transition-colors">Primary</button>
+          <button className="px-3 py-2 bg-secondary text-foreground hover:bg-panel-hover rounded text-xs transition-colors">Secondary</button>
+          <button className="px-3 py-2 bg-secondary text-foreground hover:bg-panel-hover rounded text-xs transition-colors">Links</button>
         </div>
       </div>
 
       {/* Link Type */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600">Link Type</label>
-        <select className="w-full px-3 py-2 border rounded text-xs" value={linkType}>
+        <label className="text-xs text-muted-foreground">Link Type</label>
+        <select className="w-full px-3 py-2 border border-border bg-input text-foreground rounded text-xs" value={linkType}>
           <option value="none">None</option>
           <option value="external">External</option>
           <option value="section">Section</option>
@@ -40,7 +40,7 @@ export function ButtonDesignPanel({ componentId }: ButtonDesignPanelProps) {
         </select>
       </div>
 
-      <div className="text-xs text-gray-500 mt-4">
+      <div className="text-xs text-muted-foreground mt-4">
         Component ID: {componentId || 'none'}
       </div>
     </div>

@@ -45,7 +45,7 @@ export const EditorLayout = ({ children }: EditorLayoutProps) => {
   return (
     <SelectSectionProvider>
       <CraftEditor enabled={true}>
-        <div className="flex flex-col h-screen w-full bg-white text-slate-900">
+        <div className="flex flex-col h-screen w-full bg-background text-foreground">
           <EditorHeader device={device} setDevice={setDevice} />
           <div className="flex flex-1 overflow-hidden relative">
             {/* Left Panel (Sidebar + Drawer) - Now sibling to Main, not absolute */}
@@ -57,9 +57,9 @@ export const EditorLayout = ({ children }: EditorLayoutProps) => {
             />
             
             {/* Main Canvas Area */}
-            <main className="flex-1 overflow-auto bg-[#F6F6F6] relative p-4 transition-all duration-300">
+            <main className="flex-1 overflow-auto bg-secondary relative p-4 transition-all duration-300">
                 <div className={cn(
-                  "h-full bg-white rounded-lg relative shadow-sm mx-auto transition-all duration-300",
+                  "h-full bg-card rounded-lg relative shadow-sm mx-auto transition-all duration-300",
                   device === "mobile" ? "max-w-[375px]" :
                   device === "tablet" ? "max-w-[768px]" :
                   "w-full"
