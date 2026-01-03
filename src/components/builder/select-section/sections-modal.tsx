@@ -11,8 +11,8 @@ import {
   SectionType,
   SectionTemplate,
 } from './section-templates-data';
+import { getTemplateContent, cloneTemplateWithUniqueIds } from './template-content';
 import { cn } from '@/lib/utils';
-import { Section } from '../craft/user-components';
 import { Icons } from '@/icons';
 import { Input } from '@/components/ui/input';
 
@@ -102,40 +102,52 @@ export const SectionsModal = () => {
         }
       }
       
-      // Create a fresh section using the Craft.js node creation
-      // We use the parsed representation to create a Section component
-      const freshNodeTree = editorQuery.parseReactElement(
-        <Section
-          background={getBackgroundForSection(template.category)}
-          padding="60px 20px"
-          minHeight="auto"
-          maxWidth="1200px"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          gap={20}
-        />
-      ).toNodeTree();
+      // Get the template content JSON
+      const templateContent = getTemplateContent(template.id);
       
-      // Update the node with custom data for identification
-      if (freshNodeTree.rootNodeId && freshNodeTree.nodes[freshNodeTree.rootNodeId]) {
-        const rootId = freshNodeTree.rootNodeId;
-        freshNodeTree.nodes[rootId] = {
-          ...freshNodeTree.nodes[rootId],
-          data: {
-            ...freshNodeTree.nodes[rootId].data,
-            custom: {
-              displayName: getSectionDisplayName(template.category),
-              componentType: template.category,
-              isSection: true,
-              templateId: template.id,
-            },
-          },
-        };
+      if (!templateContent) {
+        console.error('Template content not found for:', template.id);
+        closeModal();
+        return;
       }
       
+      // Clone the template with unique IDs to avoid conflicts
+      const clonedTemplate = cloneTemplateWithUniqueIds(templateContent);
+      
+      // Convert serialized nodes to proper Node objects
+      const nodes: Record<string, any> = {};
+      const rootNodeId = clonedTemplate.rootNodeId;
+      
+      // Parse each serialized node into a proper Node using the query method
+      const processNode = (nodeId: string, serializedNode: any, isRoot: boolean) => {
+        const node = editorQuery.parseSerializedNode(serializedNode).toNode((n) => {
+          // Normalize the node with our custom data
+          n.id = nodeId;
+          // Root section's parent should be 'ROOT', children keep their parent reference
+          n.data.parent = isRoot ? 'ROOT' : serializedNode.parent;
+          n.data.nodes = serializedNode.nodes || [];
+          n.data.custom = serializedNode.custom || {};
+        });
+        nodes[nodeId] = node;
+      };
+      
+      // Process root node first (it's the section being added)
+      processNode(rootNodeId, clonedTemplate.nodes[rootNodeId], true);
+      
+      // Then process all child nodes
+      Object.entries(clonedTemplate.nodes).forEach(([nodeId, serializedNode]) => {
+        if (nodeId !== rootNodeId) {
+          processNode(nodeId, serializedNode, false);
+        }
+      });
+      
+      const nodeTree = {
+        rootNodeId,
+        nodes,
+      };
+      
       // Add the new section at the determined position
-      editorActions.addNodeTree(freshNodeTree, 'ROOT', insertIndex);
+      editorActions.addNodeTree(nodeTree, 'ROOT', insertIndex);
       
       // Close modal after successful addition
       closeModal();
@@ -144,7 +156,7 @@ export const SectionsModal = () => {
     } finally {
       setIsAddingSection(false);
     }
-  }, [editorActions, editorQuery, actionType, targetNodeId, closeModal]);
+  }, [editorActions, editorQuery, actionType, targetNodeId, insertPosition, closeModal]);
 
   // Get background color based on section type
   const getBackgroundForSection = (category: SectionType): string => {
