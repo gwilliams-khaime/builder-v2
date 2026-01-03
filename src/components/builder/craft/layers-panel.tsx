@@ -12,7 +12,7 @@ interface LayerItemProps {
 }
 
 const LayerItem = ({ nodeId, depth = 0 }: LayerItemProps) => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(nodeId === "ROOT");
 
   const { node, selectedNodeId, actions, childNodes, isHidden } = useEditor((state, query) => {
     const node = state.nodes[nodeId];

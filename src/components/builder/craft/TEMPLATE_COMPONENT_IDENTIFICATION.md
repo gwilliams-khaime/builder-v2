@@ -52,7 +52,7 @@ or
 ```json
 {
   "custom": {
-    "componentType": "section" | "header" | "footer" | "navbar" | "hero" | "cta" | "features" | "navigation" | "banner"
+    "componentType": "section" | "header" | "footer" | "navbar" | "hero" | "cta" | "features" | "navigation" | "banner" | "about" | "team" | "gallery" | "services" | "socials" | "newsletter" | "testimonials" | "case studies" | "why join us" | "privacy policy" | "pricing" | "terms of service" | "resources" | "contact" | "faq" | "blogs" | "product"
   }
 }
 ```
