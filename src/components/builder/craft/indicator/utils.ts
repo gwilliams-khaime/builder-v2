@@ -5,22 +5,37 @@
 
 /**
  * Get the display name for a component node
+ * - For SECTIONS: Returns custom.displayName (e.g., "Hero Section", "Footer")
+ * - For ELEMENTS: Returns type name (e.g., "Button", "Text")
  */
 export const getComponentType = (node: any): string => {
   if (!node) return "Component";
-  const customName = node.data?.custom?.displayName;
-  const displayName = node.data?.displayName;
   
-  // Handle type which can be object, string, or function
-  let typeName = "";
+  // Get the type name first
   const nodeType = node.data?.type;
+  let typeName = "";
   if (typeof nodeType === 'object' && nodeType !== null) {
     typeName = nodeType.resolvedName || "";
   } else if (typeof nodeType === 'string') {
     typeName = nodeType;
+  } else if (typeof nodeType === 'function') {
+    // Craft.js stores the component function directly
+    typeName = nodeType.craft?.displayName || nodeType.name || "";
   }
   
-  return customName || displayName || typeName || "Component";
+  const displayName = node.data?.displayName;
+  const customName = node.data?.custom?.displayName;
+  const isSection = node.data?.custom?.isSection === true || 
+                    typeName.toLowerCase() === "section" || 
+                    typeName.toLowerCase() === "root";
+  
+  // For SECTIONS: show the custom display name (e.g., "Hero Section", "Footer")
+  // For ELEMENTS: show the type name (e.g., "Button", "Text")
+  if (isSection) {
+    return customName || displayName || typeName || "Section";
+  }
+  
+  return typeName || displayName || customName || "Component";
 };
 
 /**
@@ -140,18 +155,40 @@ export const isImageType = (node: any): boolean => {
 
 /**
  * Check if it's a button type
+ * Uses type.resolvedName directly for reliable detection
  */
 export const isButtonType = (node: any): boolean => {
-  const typeId = getComponentTypeId(node);
-  return typeId === "button" || typeId.includes("btn");
+  if (!node) return false;
+  const nodeType = node.data?.type;
+  let typeName = "";
+  if (typeof nodeType === 'object' && nodeType !== null) {
+    typeName = (nodeType.resolvedName || "").toLowerCase();
+  } else if (typeof nodeType === 'string') {
+    typeName = nodeType.toLowerCase();
+  } else if (typeof nodeType === 'function') {
+    // Craft.js stores the component function directly, get displayName from craft property
+    typeName = (nodeType.craft?.displayName || nodeType.name || "").toLowerCase();
+  }
+  return typeName === "button";
 };
 
 /**
  * Check if it's a text type
+ * Uses type.resolvedName directly for reliable detection
  */
 export const isTextType = (node: any): boolean => {
-  const typeId = getComponentTypeId(node);
-  return typeId === "text" || typeId.includes("heading") || typeId.includes("paragraph");
+  if (!node) return false;
+  const nodeType = node.data?.type;
+  let typeName = "";
+  if (typeof nodeType === 'object' && nodeType !== null) {
+    typeName = (nodeType.resolvedName || "").toLowerCase();
+  } else if (typeof nodeType === 'string') {
+    typeName = nodeType.toLowerCase();
+  } else if (typeof nodeType === 'function') {
+    // Craft.js stores the component function directly, get displayName from craft property
+    typeName = (nodeType.craft?.displayName || nodeType.name || "").toLowerCase();
+  }
+  return typeName === "text";
 };
 
 /**
