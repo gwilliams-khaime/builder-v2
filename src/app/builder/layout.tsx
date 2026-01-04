@@ -1,4 +1,4 @@
-import { EditorLayout } from "@/components/builder/EditorLayout";
+import { EditorLayout } from "@/components/builder/editor-layout";
 
 export default function BuilderLayout({
   children,

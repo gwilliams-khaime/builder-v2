@@ -75,15 +75,15 @@ export const Button: React.FC<ButtonProps> = ({
       case 'primary':
         return colorScheme.solid;
       case 'secondary':
-        return 'bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500/50';
+        return 'bg-secondary text-secondary-foreground hover:bg-panel-hover focus:ring-ring/50';
       case 'outline':
         return colorScheme.outline;
       case 'ghost':
         return colorScheme.ghost;
       case 'danger':
-        return 'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500/50';
+        return 'bg-destructive text-white hover:bg-destructive/90 focus:ring-destructive/50';
       case 'transparent':
-        return 'bg-transparent text-gray-700 hover:bg-transparent hover:text-gray-700 focus:ring-gray-500/50';
+        return 'bg-transparent text-foreground hover:bg-transparent hover:text-foreground focus:ring-ring/50';
       default:
         return colorScheme.solid;
     }

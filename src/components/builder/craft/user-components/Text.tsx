@@ -11,6 +11,7 @@ export interface TextProps {
   textAlign?: "left" | "center" | "right" | "justify";
   lineHeight?: number;
   tagName?: "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "span";
+  href?: string;
 }
 
 export const Text = ({
@@ -21,6 +22,7 @@ export const Text = ({
   textAlign = "left",
   lineHeight = 1.5,
   tagName = "p",
+  href = "",
 }: TextProps) => {
   const {
     connectors: { connect, drag },
@@ -72,7 +74,7 @@ export const Text = ({
         setEditable(false);
         setProp((props: TextProps) => {
           props.text = e.currentTarget.innerText;
-        });
+        }, 500);
       }}
     >
       {text}
@@ -90,6 +92,7 @@ Text.craft = {
     textAlign: "left",
     lineHeight: 1.5,
     tagName: "p",
+    href: "",
   },
   rules: {
     canDrag: () => true,

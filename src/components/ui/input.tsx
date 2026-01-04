@@ -368,10 +368,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref)
   const commonClasses = useMemo(
     () =>
       clsx(
-        `w-full text-lg border rounded-xl transition-all duration-200 focus:outline-none focus:ring-0 focus:bg-white ${
+        `w-full text-lg border rounded-xl transition-all duration-200 focus:outline-none focus:ring-0 focus:bg-card text-foreground ${
           error
-            ? 'border-red-300 focus:border-red-400 bg-red-50/30'
-            : 'border-[#7C7C7C] focus:border-primary bg-transparent'
+            ? 'border-destructive/50 focus:border-destructive bg-destructive/5'
+            : 'border-border focus:border-primary bg-transparent'
         }`,
         '[&::-webkit-calendar-picker-indicator]:hidden',
         '[&::-webkit-inner-spin-button]:hidden',
@@ -711,7 +711,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref)
 
   return (
     <div className="space-y-2">
-      {label && <h3 className={clsx(getLabelClasses(), 'text-[#545454]')}>{label}</h3>}
+      {label && <h3 className={clsx(getLabelClasses(), 'text-muted-foreground')}>{label}</h3>}
       <div className="relative">
         {getInputTypeComponent()}
 

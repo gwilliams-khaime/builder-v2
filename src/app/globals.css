@@ -1,35 +1,212 @@
-@import "tailwindcss";
+@layer theme, base, components, utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #42C3FF;
-}
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
 
-@theme inline {
+/* ========================================
+   Design Tokens / Theme Configuration
+   ======================================== */
+
+@theme {
+  /* Border Radius */
+  /* --radius: 0.625rem; 10px */
+  /* --radius-sm: calc(var(--radius) - 0.25rem); 8px */
+  /* --radius-md: var(--radius); */
+  /* --radius-lg: calc(var(--radius) + 0.25rem); 12px */
+  /* --radius-xl: calc(var(--radius) + 0.5rem); 14px */
+  
+
+  /* Colors mapped to CSS variables */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #42C3FF;
-  }
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-subtle: var(--accent-subtle);
+  
+  --color-destructive: var(--destructive);
+  
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  /* Editor specific */
+  --color-canvas: var(--canvas);
+  --color-panel: var(--panel);
+  --color-panel-hover: var(--panel-hover);
+  
+  /* Sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
-/* Craft.js renderer container */
+/* ========================================
+   Light Theme (Default)
+   ======================================== */
+:root {
+  --radius: 0.625rem;
+
+  /* Base */
+  --background: oklch(1 0 0);              /* #FFFFFF */
+  --foreground: oklch(0.145 0 0);          /* #0F172A */
+
+  /* Surfaces */
+  --card: oklch(0.985 0 0);                 /* #F8FAFC */
+  --card-foreground: oklch(0.145 0 0);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+
+  /* Brand */
+  --primary: oklch(0.74 0.16 230);          /* #42C3FF */
+  --primary-foreground: oklch(1 0 0);
+
+  /* Secondary / Neutral */
+  --secondary: oklch(0.97 0 0);             /* surface */
+  --secondary-foreground: oklch(0.205 0 0);
+
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);     /* #94A3B8 */
+
+  /* Accent (Professional Slate Blue) */
+  --accent: oklch(0.42 0.03 245);            /* #4A5D73 */
+  --accent-foreground: oklch(1 0 0);
+  --accent-subtle: oklch(0.93 0.01 245);     /* #E6EBF1 */
+
+  /* Status */
+  --destructive: oklch(0.62 0.22 27);
+
+  /* Borders & Inputs */
+  --border: oklch(0.922 0 0);               /* #E5E7EB */
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.74 0.16 230);              /* primary */
+
+  /* Editor */
+  --canvas: oklch(0.97 0 0);                 /* Light gray canvas */
+  --panel: oklch(0.985 0 0);
+  --panel-hover: oklch(0.96 0 0);
+
+  /* Sidebar */
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.74 0.16 230);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.96 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.74 0.16 230);
+}
+
+
+/* ========================================
+   Dark Theme
+   ======================================== */
+.dark {
+  /* Base */
+  --background: oklch(0.145 0 0);            /* #0B1220 */
+  --foreground: oklch(0.92 0 0);             /* Light text */
+
+  /* Surfaces */
+  --card: oklch(0.205 0 0);                  /* #0F172A */
+  --card-foreground: oklch(0.92 0 0);
+
+  --popover: oklch(0.22 0 0);                /* Slightly lighter than card */
+  --popover-foreground: oklch(0.92 0 0);
+
+  /* Brand */
+  --primary: oklch(0.74 0.16 230);            /* #42C3FF */
+  --primary-foreground: oklch(0.145 0 0);
+
+  /* Secondary */
+  --secondary: oklch(0.25 0 0);
+  --secondary-foreground: oklch(0.92 0 0);
+
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.65 0 0);       /* Muted text */
+
+  /* Accent (Muted, Not Playful) */
+  --accent: oklch(0.37 0.03 245);             /* darker slate */
+  --accent-foreground: oklch(0.92 0 0);
+  --accent-subtle: oklch(0.22 0.02 245);      /* #1E293B */
+
+  /* Status */
+  --destructive: oklch(0.70 0.19 22);
+
+  /* Borders & Inputs */
+  --border: oklch(0.3 0 0);                   /* Visible dark border */
+  --input: oklch(0.25 0 0);
+  --ring: oklch(0.74 0.16 230);
+
+  /* Editor */
+  --canvas: oklch(0.18 0 0);                  /* Dark canvas */
+  --panel: oklch(0.17 0 0);                   /* Dark panel */
+  --panel-hover: oklch(0.22 0 0);
+
+  /* Sidebar */
+  --sidebar: oklch(0.145 0 0);
+  --sidebar-foreground: oklch(0.92 0 0);
+  --sidebar-primary: oklch(0.74 0.16 230);
+  --sidebar-primary-foreground: oklch(0.145 0 0);
+  --sidebar-accent: oklch(0.22 0 0);
+  --sidebar-accent-foreground: oklch(0.92 0 0);
+  --sidebar-border: oklch(0.3 0 0);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* ========================================
+   Craft.js Renderer Container
+   ======================================== */
 .craftjs-renderer {
   width: 100%;
   position: relative;
   min-height: 100%;
+}
+
+/* ========================================
+   Custom Scrollbar Styles
+   ======================================== */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
 }

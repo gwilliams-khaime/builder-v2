@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "@mantine/core/styles.css";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 import { ColorSchemeScript, MantineProvider, createTheme, Tooltip } from "@mantine/core";
 import "./globals.css";
+import { ThemeProvider } from "next-themes";
+import { ModalsProvider } from '@mantine/modals';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,12 +22,13 @@ const theme = createTheme({
       },
       styles: {
         tooltip: {
-          backgroundColor: "#F6F6F6",
-          color: "#161616",
+          backgroundColor: "var(--popover)",
+          color: "var(--popover-foreground)",
           fontWeight: 400,
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
         },
         arrow: {
-          backgroundColor: "#F6F6F6",
+          backgroundColor: "var(--popover)",
         },
       },
     },
@@ -50,9 +46,19 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.className} antialiased`}
       >
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+             <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >  <MantineProvider defaultColorScheme={"light"} forceColorScheme="light"theme={theme}>
+                <ModalsProvider>
+{children}</ModalsProvider>
+</MantineProvider>
+          </ThemeProvider>
+       
       </body>
     </html>
   );
