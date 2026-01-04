@@ -199,23 +199,23 @@ export const SectionsModal = () => {
       contentClassName="p-0"
       className="p-0"
     >
-      <div className="flex overflow-hidden relative min-w-[400px] h-full">
+      <div className="flex overflow-hidden relative min-w-[400px] h-full bg-popover">
         {/* Loading overlay */}
         {isAddingSection && (
-          <div className="absolute top-0 left-0 bg-white/70 z-[9999999] w-full h-full flex justify-center items-center">
+          <div className="absolute top-0 left-0 bg-background/70 z-[9999999] w-full h-full flex justify-center items-center">
             <Loader />
           </div>
         )}
 
         {/* Sidebar - Section Types */}
-        <div className="w-[20%] border-r border-[#E0E0E0] min-w-[14.375rem] flex flex-col">
-          <div className="h-[72px] flex border-b border-[#E0E0E0] p-4 items-center flex-shrink-0">
-            <h3 className="text-xl font-semibold text-[#161616]">
+        <div className="w-[20%] border-r border-border min-w-[14.375rem] flex flex-col">
+          <div className="h-[72px] flex border-b border-border p-4 items-center flex-shrink-0">
+            <h3 className="text-xl font-semibold text-foreground">
               Section
             </h3>
           </div>
 
-          <div className="flex-grow overflow-y-auto mb-2">
+          <div className="flex-grow overflow-y-auto mb-2 custom-scrollbar">
             <div className="w-full py-5">
               <div className="flex flex-col gap-4">
                 {SECTION_TYPES.map((section) => (
@@ -227,10 +227,10 @@ export const SectionsModal = () => {
                     }}
                     className={cn(
                       'cursor-pointer py-2 px-4 rounded-[100px] mx-6 font-medium text-base capitalize text-left',
-                      'hover:bg-[#ECEBFF]/60 hover:text-[#4840E0]/70 transition-colors',
+                      'hover:bg-primary/10 hover:text-primary transition-colors',
                       selectedSection === section
-                        ? 'bg-[#ECEBFF] text-[#4840E0]'
-                        : 'bg-white text-gray-700'
+                        ? 'bg-primary/15 text-primary'
+                        : 'bg-transparent text-foreground'
                     )}
                   >
                     <p className="truncate">{getSectionDisplayName(section)}</p>
@@ -244,8 +244,8 @@ export const SectionsModal = () => {
         {/* Main Content - Templates */}
         <div className="flex-grow flex flex-col w-full">
           {/* Header */}
-          <div className="h-[72px] flex border-b border-[#E0E0E0] p-4 justify-between items-center flex-shrink-0">
-            <h3 className="text-xl font-semibold text-[#161616]">
+          <div className="h-[72px] flex border-b border-border p-4 justify-between items-center flex-shrink-0">
+            <h3 className="text-xl font-semibold text-foreground">
               {getSectionDisplayName(selectedSection)} Section
             </h3>
 
@@ -256,7 +256,7 @@ export const SectionsModal = () => {
                 placeholder="Search section"
                 value={searchTerm}
                 onChange={setSearchTerm}
-                className="w-[200px] h-10 border border-[#E0E0E0]"
+                className="w-[200px] h-10 border border-border bg-input"
               />
 
               {/* Layout Toggle */}
@@ -265,28 +265,28 @@ export const SectionsModal = () => {
                   onClick={() => setLayoutType('grid')}
                   className={cn(
                     'p-2 rounded-l-lg transition-colors',
-                    layoutType === 'grid' ? 'bg-[#ECEBFF]' : 'bg-[#F6F6F6]',
-                    'hover:bg-[#ECEBFF]'
+                    layoutType === 'grid' ? 'bg-primary/15' : 'bg-secondary',
+                    'hover:bg-primary/15'
                   )}
                 >
-                  <Icons.GridIcon className={cn('w-5 h-5', layoutType === 'grid' ? 'text-[#4840E0]' : 'text-gray-500')} />
+                  <Icons.GridIcon className={cn('w-5 h-5', layoutType === 'grid' ? 'text-primary' : 'text-muted-foreground')} />
                 </button>
                 <button
                   onClick={() => setLayoutType('list')}
                   className={cn(
                     'p-2 rounded-r-lg transition-colors',
-                    layoutType === 'list' ? 'bg-[#ECEBFF]' : 'bg-[#F6F6F6]',
-                    'hover:bg-[#ECEBFF]'
+                    layoutType === 'list' ? 'bg-primary/15' : 'bg-secondary',
+                    'hover:bg-primary/15'
                   )}
                 >
-                  <Icons.ListIcon className={cn('w-5 h-5', layoutType === 'list' ? 'text-[#4840E0]' : 'text-gray-500')} />
+                  <Icons.ListIcon className={cn('w-5 h-5', layoutType === 'list' ? 'text-primary' : 'text-muted-foreground')} />
                 </button>
               </div>
             </div>
           </div>
 
           {/* Templates Grid/List */}
-          <div className="flex-grow overflow-y-auto">
+          <div className="flex-grow overflow-y-auto custom-scrollbar">
             <div
               className={cn(
                 'px-10 py-4 gap-10',
@@ -310,14 +310,14 @@ export const SectionsModal = () => {
                     width="48"
                     height="48"
                     viewBox="0 0 24 24"
-                    className="mb-4 text-gray-400"
+                    className="mb-4 text-muted-foreground"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1.5"
                   >
                     <path d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                   </svg>
-                  <p className="text-gray-600">
+                  <p className="text-muted-foreground">
                     {searchTerm
                       ? 'No templates found matching your search'
                       : 'No templates available for this section'}
@@ -344,35 +344,35 @@ const TemplateCard = ({ template, isGridLayout, onClick }: TemplateCardProps) =>
     <div
       onClick={onClick}
       className={cn(
-        'cursor-pointer flex flex-col px-3 py-6 bg-[#F6F6F6] overflow-hidden',
-        'hover:bg-[#ECEBFF] hover:rounded-lg transition-colors',
+        'cursor-pointer flex flex-col px-3 py-6 bg-secondary overflow-hidden rounded-lg',
+        'hover:bg-primary/10 transition-colors',
         isGridLayout ? 'w-full h-[200px] lg:h-[280px]' : 'w-full max-w-[600px] h-[200px]'
       )}
     >
       {/* Template Preview Placeholder */}
-      <div className="flex-1 bg-gray-200 rounded-lg flex items-center justify-center mb-2 overflow-hidden">
-        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+      <div className="flex-1 bg-muted rounded-lg flex items-center justify-center mb-2 overflow-hidden">
+        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted to-secondary">
           <div className="text-center p-4">
-            <div className="w-16 h-16 mx-auto mb-2 bg-gray-300 rounded-lg flex items-center justify-center">
+            <div className="w-16 h-16 mx-auto mb-2 bg-border rounded-lg flex items-center justify-center">
               <svg
                 width="32"
                 height="32"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#9CA3AF"
+                className="stroke-muted-foreground"
                 strokeWidth="1.5"
               >
                 <rect x="3" y="3" width="18" height="18" rx="2" />
                 <path d="M3 9h18M9 21V9" />
               </svg>
             </div>
-            <p className="text-xs text-gray-400">{template.description}</p>
+            <p className="text-xs text-muted-foreground">{template.description}</p>
           </div>
         </div>
       </div>
 
       {/* Template Name */}
-      <div className="text-[#161616] text-sm font-medium text-center flex-shrink-0">
+      <div className="text-foreground text-sm font-medium text-center flex-shrink-0">
         {template.name}
       </div>
     </div>

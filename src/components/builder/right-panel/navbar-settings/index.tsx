@@ -17,21 +17,21 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
 
   return (
     <div className="space-y-4">
-      <div className="text-sm font-medium text-gray-700">Navbar Settings</div>
+      <div className="text-sm font-medium text-foreground">Navbar Settings</div>
       
       {/* Logo Type */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600">Logo Type</label>
+        <label className="text-xs text-muted-foreground">Logo Type</label>
         <div className="flex gap-2">
-          <button className="px-3 py-2 bg-gray-100 rounded text-xs">Image</button>
-          <button className="px-3 py-2 bg-gray-100 rounded text-xs">Text</button>
+          <button className="px-3 py-2 bg-secondary text-foreground hover:bg-panel-hover rounded text-xs transition-colors">Image</button>
+          <button className="px-3 py-2 bg-secondary text-foreground hover:bg-panel-hover rounded text-xs transition-colors">Text</button>
         </div>
       </div>
 
       {/* Logo Position */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600">Logo Position</label>
-        <select className="w-full px-3 py-2 border rounded text-xs" value={logoPosition}>
+        <label className="text-xs text-muted-foreground">Logo Position</label>
+        <select className="w-full px-3 py-2 border border-border bg-input text-foreground rounded text-xs" value={logoPosition}>
           <option value="left">Left</option>
           <option value="center">Center</option>
           <option value="right">Right</option>
@@ -40,17 +40,17 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
 
       {/* Color Scheme */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600">Color Scheme</label>
+        <label className="text-xs text-muted-foreground">Color Scheme</label>
         <div className="flex gap-2">
-          <button className="px-3 py-2 bg-gray-100 rounded text-xs">Light</button>
-          <button className="px-3 py-2 bg-gray-100 rounded text-xs">Dark</button>
+          <button className="px-3 py-2 bg-secondary text-foreground hover:bg-panel-hover rounded text-xs transition-colors">Light</button>
+          <button className="px-3 py-2 bg-secondary text-foreground hover:bg-panel-hover rounded text-xs transition-colors">Dark</button>
         </div>
       </div>
 
       {/* Navigation Style */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600">Navigation Style</label>
-        <select className="w-full px-3 py-2 border rounded text-xs" value={navigationStyle}>
+        <label className="text-xs text-muted-foreground">Navigation Style</label>
+        <select className="w-full px-3 py-2 border border-border bg-input text-foreground rounded text-xs" value={navigationStyle}>
           <option value="solid_sticky">Solid Sticky</option>
           <option value="solid_not_sticky">Solid Not Sticky</option>
           <option value="transparent_not_sticky">Transparent Not Sticky</option>
@@ -60,8 +60,8 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
 
       {/* Show Cart Icon */}
       <div className="space-y-2">
-        <label className="text-xs text-gray-600 flex items-center gap-2">
-          <input type="checkbox" checked={showCartIcon} readOnly className="rounded" />
+        <label className="text-xs text-foreground flex items-center gap-2">
+          <input type="checkbox" checked={showCartIcon} readOnly className="rounded accent-primary" />
           Show Cart Icon
         </label>
       </div>

@@ -62,7 +62,7 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
       <div className="space-y-2.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <label className="block text-xs font-light text-[#323232]">Text Size</label>
+            <label className="block text-xs font-light text-foreground">Text Size</label>
             <Tooltip
               label="Pick a text size. This helps keep your website's typography clean and consistent."
               multiline
@@ -72,7 +72,7 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
               styles={{ tooltip: { fontSize: 'var(--mantine-font-size-xs)' } }}
             >
               <span>
-                <Icons.Info className="w-4 h-4 text-white fill-[#7C7C7C]" />
+                <Icons.Info className="w-4 h-4 text-muted-foreground" />
               </span>
             </Tooltip>
           </div>
@@ -83,10 +83,10 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
           data={TEXT_SIZE_OPTIONS}
           comboboxProps={{ zIndex: 100000000, withinPortal: true }}
           classNames={{
-            input: 'border-[#7C7C7C] w-full rounded-lg h-[32px] text-xs',
-            dropdown: 'rounded-xl',
+            input: 'border-border bg-input text-foreground w-full rounded-lg h-[32px] text-xs',
+            dropdown: 'rounded-xl bg-popover',
             options: 'hover:rounded-xl font-light text-xs',
-            option: 'text-xs p-3',
+            option: 'text-xs p-3 text-foreground hover:bg-secondary',
           }}
         />
       </div>
@@ -95,7 +95,7 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
       <div className="space-y-2.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <label className="block text-xs font-light text-[#323232]">Font Family</label>
+            <label className="block text-xs font-light text-foreground">Font Family</label>
             <Tooltip
               label="Choose the font style. Primary is typically for headings, Secondary is for body text."
               multiline
@@ -105,7 +105,7 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
               styles={{ tooltip: { fontSize: 'var(--mantine-font-size-xs)' } }}
             >
               <span>
-                <Icons.Info className="w-4 h-4 text-white fill-[#7C7C7C]" />
+                <Icons.Info className="w-4 h-4 text-muted-foreground" />
               </span>
             </Tooltip>
           </div>
@@ -116,10 +116,10 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
           data={FONT_FAMILY_OPTIONS}
           comboboxProps={{ zIndex: 100000000, withinPortal: true }}
           classNames={{
-            input: 'border-[#7C7C7C] w-full rounded-lg h-[32px] text-xs',
-            dropdown: 'rounded-xl',
+            input: 'border-border bg-input text-foreground w-full rounded-lg h-[32px] text-xs',
+            dropdown: 'rounded-xl bg-popover',
             options: 'hover:rounded-xl font-light text-xs',
-            option: 'text-xs p-3',
+            option: 'text-xs p-3 text-foreground hover:bg-secondary',
           }}
         />
       </div>
@@ -127,7 +127,7 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
       {/* Text Colour */}
       <div className="flex items-center justify-between w-full py-2">
         <div className="flex items-center gap-1.5">
-          <label className="block text-xs font-light text-[#323232]">Text Colour</label>
+          <label className="block text-xs font-light text-foreground">Text Colour</label>
           <Tooltip
             label="Choose the colour your text will appear in. Dark colours = easier to read on light backgrounds; light colours = easier on dark backgrounds."
             multiline
@@ -137,7 +137,7 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
             styles={{ tooltip: { fontSize: 'var(--mantine-font-size-xs)' } }}
           >
             <span>
-              <Icons.Info className="w-4 h-4 text-white fill-[#7C7C7C]" />
+              <Icons.Info className="w-4 h-4 text-muted-foreground" />
             </span>
           </Tooltip>
         </div>
@@ -147,7 +147,7 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
       {/* Text Alignment */}
       <div className="space-y-2.5">
         <div className="flex items-center gap-1.5">
-          <label className="block text-xs font-light text-[#323232]">Text Alignment</label>
+          <label className="block text-xs font-light text-foreground">Text Alignment</label>
           <Tooltip
             label="Decide how your text sits. Left = natural reading Center = balanced and clean Right = stylized or for special layouts Justified = straight edges on both sides"
             multiline
@@ -157,11 +157,11 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
             styles={{ tooltip: { fontSize: 'var(--mantine-font-size-xs)' } }}
           >
             <span>
-              <Icons.Info className="w-4 h-4 text-white fill-[#7C7C7C]" />
+              <Icons.Info className="w-4 h-4 text-muted-foreground" />
             </span>
           </Tooltip>
         </div>
-        <div className="grid grid-cols-4 w-full gap-1 bg-[#F6F6F6] rounded-lg p-1">
+        <div className="grid grid-cols-4 w-full gap-1 bg-secondary rounded-lg p-1">
           {(['left', 'center', 'right', 'justify'] as TextAlignment[]).map((alignment) => {
             const Icon = TEXT_ALIGNMENT_ICONS[alignment];
             return (
@@ -169,13 +169,13 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
                 key={alignment}
                 onClick={() =>  {}}
                 className={cn(
-                  'h-7 rounded-md text-[10px] shrink-0 w-full flex items-center justify-center border-[0.5px] transition-colors',
+                  'h-7 rounded-md text-[10px] shrink-0 w-full flex items-center justify-center border-[0.5px] transition-colors text-foreground',
                   textAlignment === alignment
-                    ? 'bg-[#EEF1FF] border-[#323232]'
-                    : 'bg-white border-[#E0E0E0]'
+                    ? 'dark:bg-primary/80 bg-primary/10 border-foreground'
+                    : 'bg-card border-border'
                 )}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-4 h-4 text-white dark:text-" />
               </button>
             );
           })}

@@ -95,11 +95,11 @@ const LayerItem = ({ nodeId, depth = 0 }: LayerItemProps) => {
   };
 
   return (
-    <div className="select-none text-sm text-[#161616]">
+    <div className="select-none text-sm text-foreground">
       <div
         className={cn(
           "group flex items-center justify-between py-2 pr-3 cursor-pointer transition-colors",
-          isSelected ? "bg-[#E0E0E0] font-medium" : "hover:bg-gray-100"
+          isSelected ? "bg-sidebar-accent font-medium" : "hover:bg-panel-hover"
         )}
         style={{ paddingLeft: `${depth * 16 + 12}px` }}
         onClick={handleSelect}
@@ -109,7 +109,7 @@ const LayerItem = ({ nodeId, depth = 0 }: LayerItemProps) => {
           <div 
             className={cn(
               "w-4 h-4 flex items-center justify-center transition-transform duration-200 cursor-pointer",
-              hasChildNodes && "hover:bg-black/5 rounded"
+              hasChildNodes && "hover:bg-foreground/5 rounded"
             )}
             onClick={hasChildNodes ? toggleExpanded : undefined}
           >
@@ -118,7 +118,7 @@ const LayerItem = ({ nodeId, depth = 0 }: LayerItemProps) => {
                 width={10} 
                 height={10} 
                 className={cn(
-                  "text-[#545454] transition-transform duration-200",
+                  "text-muted-foreground transition-transform duration-200",
                   !expanded && "-rotate-90"
                 )} 
               />
@@ -126,7 +126,7 @@ const LayerItem = ({ nodeId, depth = 0 }: LayerItemProps) => {
           </div>
           
           {/* Component icon */}
-          <div className="text-[#545454]">
+          <div className="text-muted-foreground">
             {renderIcon()}
           </div>
           
@@ -138,7 +138,7 @@ const LayerItem = ({ nodeId, depth = 0 }: LayerItemProps) => {
         <button
           onClick={toggleHidden}
           className={cn(
-            "p-1 rounded hover:bg-black/5 text-[#545454] transition-opacity",
+            "p-1 rounded hover:bg-foreground/5 text-muted-foreground transition-opacity",
             isHidden ? "opacity-100" : "opacity-0 group-hover:opacity-100"
           )}
         >
