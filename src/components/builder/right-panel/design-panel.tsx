@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, ScrollArea, Accordion } from '@mantine/core';
+import { Box, ScrollArea } from '@mantine/core';
 import { AnimatePresence, motion } from 'framer-motion';
 import { memo, useState } from 'react';
 import { Icons } from '@/icons';
@@ -54,22 +54,7 @@ export const DesignPanel = memo(() => {
     }
   };
 
-  // Get panel display name for accordion headers
-  const getPanelDisplayName = (panelType: PanelType): string => {
-    const names: Record<PanelType, string> = {
-      'typography': 'Typography',
-      'button': 'Button Style',
-      'asset': 'Image & Media',
-      'background': 'Background',
-      'layout': 'Layout',
-      'grid': 'Grid',
-      'navbar-settings': 'Navbar Settings',
-      'footer-settings': 'Footer Settings',
-      'product-settings': 'Product Settings',
-      'contact-settings': 'Contact Form',
-    };
-    return names[panelType] || panelType;
-  };
+
 
   // Render the appropriate design panel(s) based on component type
   const renderDesignPanels = () => {
@@ -129,34 +114,8 @@ export const DesignPanel = memo(() => {
       );
     }
 
-    // If only one panel, render it directly without accordion
-    if (panels.length === 1) {
-      return renderPanel(panels[0]);
-    }
-
-    // Multiple panels - render as accordion
-    return (
-      <Accordion
-        defaultValue={panels}
-        multiple
-        variant="separated"
-        classNames={{
-          root: 'space-y-2',
-          item: 'border border-border rounded-lg overflow-hidden bg-card',
-          control: 'py-3 px-4 hover:bg-panel-hover',
-          label: 'text-sm font-medium text-foreground',
-          panel: 'px-4 pb-4',
-          chevron: 'text-muted-foreground',
-        }}
-      >
-        {panels.map((panelType) => (
-          <Accordion.Item key={panelType} value={panelType}>
-            <Accordion.Control>{getPanelDisplayName(panelType)}</Accordion.Control>
-            <Accordion.Panel>{renderPanel(panelType)}</Accordion.Panel>
-          </Accordion.Item>
-        ))}
-      </Accordion>
-    );
+    // Render only the first panel
+    return panels.length > 0 ? renderPanel(panels[0]) : null;
   };
 
   return (

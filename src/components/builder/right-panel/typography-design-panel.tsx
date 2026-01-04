@@ -171,11 +171,11 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
                 className={cn(
                   'h-7 rounded-md text-[10px] shrink-0 w-full flex items-center justify-center border-[0.5px] transition-colors text-foreground',
                   textAlignment === alignment
-                    ? 'bg-primary/10 border-foreground'
+                    ? 'dark:bg-primary/80 bg-primary/10 border-foreground'
                     : 'bg-card border-border'
                 )}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-4 h-4 text-white dark:text-" />
               </button>
             );
           })}
