@@ -39,46 +39,67 @@ export function NumberIncrementerOrDecrementer({
   );
 }
 
-export function CustomSegmentedControl({
-  options,
-  value,
+export const CustomSegmentedControl = ({
   onChange,
+  value,
+  data,
+  className,
+  size = 'xs',
 }: {
-  options: Array<{ value: string; label: string }>;
-  value: string;
   onChange: (value: string) => void;
-}) {
+  value: string;
+  data: {
+    label: string | React.ReactNode;
+    value: string;
+  }[];
+  className?: string;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+}) => {
   return (
-    <div className="flex gap-1 p-1 bg-secondary rounded">
-      {options.map((option) => (
+    <div
+      className={`${className} grid grid-cols-${data.length} w-auto gap-2 rounded-lg p-1.5 bg-secondary`}
+    >
+      {data.map((v) => (
         <button
-          key={option.value}
-          onClick={() => onChange(option.value)}
-          className={`px-3 py-1 rounded text-xs transition-colors ${
-            value === option.value ? 'bg-card shadow text-foreground' : 'text-muted-foreground hover:text-foreground'
+          key={v.value}
+          onClick={() => onChange(v.value)}
+          className={`px-3 py-2 rounded-lg text-[10px] w-full flex items-center justify-center  capitalize border transition-colors ${
+            v.value === value
+              ? 'bg-accent-subtle text-foreground border-foreground'
+              : 'bg-card border-[0.5px] border-border'
           }`}
         >
-          {option.label}
+          {v.label}
         </button>
       ))}
     </div>
   );
-}
+};
 
-export function ToolGroup({
-  title,
+export const ToolGroup = ({
+  label,
+  className,
   children,
+  direction = 'row',
 }: {
-  title?: string;
-  children: React.ReactNode;
-}) {
+  label?: string | React.ReactNode;
+  className?: string;
+  children?: React.ReactNode;
+  direction?: 'row' | 'column';
+}) => {
   return (
-    <div className="space-y-2">
-      {title && <div className="text-xs font-medium text-foreground">{title}</div>}
-      <div>{children}</div>
+    <div
+      className={`${className} flex ${direction === 'row' ? 'items-center justify-between' : 'flex-col items-start justify-start'} w-full gap-2`}
+    >
+      {label && (
+        <div className="text-xs text-foreground line">
+          {label}
+        </div>
+      )}
+      {children}
     </div>
   );
-}
+};
 
 export function ToggleButton({
   value,

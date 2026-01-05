@@ -12,24 +12,13 @@ interface BackgroundDesignPanelProps {
   componentId: string;
 }
 
-
 type BackgroundStyle = 'colour' | 'image' | 'video';
-type OverlayStrength = 'none' | 'light' | 'medium' | 'strong' | 'solid';
-type AnimationStyle =
-  | 'none'
-  | 'fade-in'
-  | 'slide-in-left'
-  | 'slide-in-right'
-  | 'bounce-in'
-  | 'scale-up'
-  | 'rotate';
 type ImageEffect = 'original' | 'greyscale' | 'blur' | 'invert' | 'sepia' | 'cartoon';
 interface BackgroundDesignPanelProps {
   componentId: string;
 }
 
 const DEFAULT_COLOR = '#151515';
-const DEFAULT_OVERLAY_COLOR = '#000000';
 
 export function BackgroundDesignPanel({ componentId }: BackgroundDesignPanelProps) {
 const [backgroundStyle, setBackgroundStyle] = useState<BackgroundStyle>('colour');
@@ -102,10 +91,10 @@ const [backgroundStyle, setBackgroundStyle] = useState<BackgroundStyle>('colour'
       <div className="space-y-4">
         {/* Background Style Section */}
         <div className="space-y-2.5">
-          <label className="block text-sm font-medium text-black">Background Style</label>
+          <label className="block text-xs font-light text-body">Background Style</label>
           <div
             ref={containerRef}
-            className="relative flex gap-1 bg-white h-[32px] rounded-full border border-border"
+            className="relative flex gap-1 bg-secondary h-[32px] rounded-full border border-border"
           >
             {/* Sliding indicator */}
             <motion.div
@@ -115,7 +104,7 @@ const [backgroundStyle, setBackgroundStyle] = useState<BackgroundStyle>('colour'
               }}
               initial={false}
               animate={{
-                x: indicatorX,
+                x: indicatorX -1,
               }}
               transition={{
                 type: 'spring',
@@ -133,7 +122,7 @@ const [backgroundStyle, setBackgroundStyle] = useState<BackgroundStyle>('colour'
                 onClick={() => handleBackgroundStyleChange(style)}
                 className={cn(
                   'relative z-10 flex-1 px-3 py-2 cursor-pointer text-xs font-light rounded-full disabled:opacity-50 transition-colors',
-                  backgroundStyle === style ? 'text-white' : 'text-[#323232]'
+                  backgroundStyle === style ? 'text-white' : 'text-body'
                 )}
               >
                 {style.charAt(0).toUpperCase() + style.slice(1)}
@@ -144,9 +133,9 @@ const [backgroundStyle, setBackgroundStyle] = useState<BackgroundStyle>('colour'
 
         {/* Background Colour Section (shown when Colour is selected) */}
         {backgroundStyle === 'colour' && (
-          <div className="flex items-center flex-1 w-full justify-between gap-4 border-b border-[#F6F6F6] pb-4">
+          <div className="flex items-center flex-1 w-full justify-between gap-4 border-b border-border pb-4">
             <div className="flex items-center flex-1 gap-1.5">
-              <label className="block text-xs font-light text-[#323232]">Background Colour</label>
+              <label className="block text-xs font-light text-body">Background Colour</label>
               <Tooltip
                 label="Choose the solid colour that fills the background of this section."
                 multiline
@@ -171,7 +160,7 @@ const [backgroundStyle, setBackgroundStyle] = useState<BackgroundStyle>('colour'
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-1.5">
-                <label className="block text-xs text-[#323232]">Image Upload</label>
+                <label className="block text-xs text-body">Image Upload</label>
                 <Tooltip
                   label="Add or change the image that appears behind this section."
                   multiline
@@ -241,7 +230,7 @@ const [backgroundStyle, setBackgroundStyle] = useState<BackgroundStyle>('colour'
 
                 <div className="flex items-center justify-between w-full py-4 border-b border-[#F6F6F6]">
                   <div className="flex items-center gap-1.5">
-                    <label className="block text-xs text-[#323232]">Background Position</label>
+                    <label className="block text-xs text-body">Background Position</label>
                     <Tooltip
                       label="Choose which part of the image stays visible (for example: centre, top, or bottom) when the section resizes."
                       multiline
@@ -271,7 +260,7 @@ const [backgroundStyle, setBackgroundStyle] = useState<BackgroundStyle>('colour'
 
                 <div className="flex items-center justify-between w-full py-4 border-b border-[#F6F6F6]">
                   <div className="flex items-center gap-1.5">
-                    <label className="block text-xs text-[#323232]">Image Effects</label>
+                    <label className="block text-xs text-body">Image Effects</label>
                     <Tooltip
                       label="Apply a simple filter to your image (for example: cartoon, black & white, or other styles)."
                       multiline
@@ -308,7 +297,7 @@ const [backgroundStyle, setBackgroundStyle] = useState<BackgroundStyle>('colour'
           <div className="space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
-                <label className="block text-xs text-[#323232]">Select Video</label>
+                <label className="block text-xs text-body">Select Video</label>
                 <Tooltip
                   label="Pick or upload the video that will play behind this section."
                   multiline

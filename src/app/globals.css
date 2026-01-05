@@ -117,7 +117,7 @@ body {
 
   /* Editor */
   --canvas: oklch(0.97 0 0);                 /* Light gray canvas */
-  --panel: oklch(0.985 0 0);
+  --panel: oklch(1 0 0);
   --panel-hover: oklch(0.96 0 0);
 
     /* Text - Light Mode */
