@@ -28,6 +28,7 @@
   --color-popover-foreground: var(--popover-foreground);
   
   --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
   --color-primary-foreground: var(--primary-foreground);
   
   --color-secondary: var(--secondary);
@@ -91,6 +92,7 @@ body {
 
   /* Brand */
   --primary: oklch(0.74 0.16 230);          /* #42C3FF */
+  --primary-light: oklch(0.9468 0.0268 288.17);    /* #ECEBFF */
   --primary-foreground: oklch(1 0 0);
 
   /* Secondary / Neutral */
@@ -154,6 +156,7 @@ body {
 
   /* Brand */
   --primary: oklch(0.74 0.16 230);            /* #42C3FF */
+  --primary-light: oklch(0.9468 0.0268 288.17);    /* #ECEBFF */
   --primary-foreground: oklch(0.145 0 0);
 
   /* Secondary */

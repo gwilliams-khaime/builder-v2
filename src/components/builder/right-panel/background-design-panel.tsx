@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Select, Tooltip } from '@mantine/core';
 import { motion } from 'framer-motion';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { DesignColorPicker } from './common';
+import { DesignColorPicker } from './components/design-color-picker';
 import { Crop, Plus, Trash2 } from 'lucide-react';
 
 interface BackgroundDesignPanelProps {
@@ -98,7 +98,7 @@ const [backgroundStyle, setBackgroundStyle] = useState<BackgroundStyle>('colour'
           >
             {/* Sliding indicator */}
             <motion.div
-              className="absolute top-0 bottom-0 bg-gray-900 rounded-full shadow-sm"
+              className="absolute top-0 bottom-0 bg-foreground rounded-full shadow-sm"
               style={{
                 width: `calc((100% - 0.5rem) / 3)`,
               }}
@@ -122,7 +122,7 @@ const [backgroundStyle, setBackgroundStyle] = useState<BackgroundStyle>('colour'
                 onClick={() => handleBackgroundStyleChange(style)}
                 className={cn(
                   'relative z-10 flex-1 px-3 py-2 cursor-pointer text-xs font-light rounded-full disabled:opacity-50 transition-colors',
-                  backgroundStyle === style ? 'text-white' : 'text-body'
+                  backgroundStyle === style ? 'text-background' : 'text-muted-foreground'
                 )}
               >
                 {style.charAt(0).toUpperCase() + style.slice(1)}

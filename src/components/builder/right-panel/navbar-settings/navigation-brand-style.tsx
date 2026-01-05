@@ -1,6 +1,7 @@
 'use client';
 
 import { Icons } from "@/icons";
+import { cn } from "@/lib/utils";
 import { Tooltip } from "@mantine/core";
 import { Check, EditIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -186,7 +187,7 @@ export const NavigationBrandStyle = ({ brandStyle, setBrandStyle, onNameChange }
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <h3 className="text-xs font-light text-foreground">Brand Logo</h3>
+        <h3 className="text-xs text-foreground">Brand Logo</h3>
         <Tooltip
           label="Select the type of logo you want to display in your navigation"
           multiline
@@ -201,9 +202,10 @@ export const NavigationBrandStyle = ({ brandStyle, setBrandStyle, onNameChange }
 
       <div className="relative border border-border bg-card rounded-full">
         <div
-          className={`absolute top-0 bottom-0 bg-foreground rounded-full transition-all duration-300 ease-in-out ${
-            brandStyle.logo_type === 'image' ? 'left-0 right-1/2' : 'left-1/2 right-0'
-          }`}
+          className={cn("absolute top-0 bottom-0 bg-foreground rounded-full transition-all duration-300 ease-in-out", {
+            "left-0 right-1/2": brandStyle.logo_type === 'image',
+            "left-1/2 right-0": brandStyle.logo_type === 'typography',
+          })}
         />
         <div className="relative flex">
           <button
@@ -312,7 +314,7 @@ export const NavigationBrandStyle = ({ brandStyle, setBrandStyle, onNameChange }
 
       {/* Logo Position Section */}
       <div className="space-y-2">
-        <h3 className="text-xs font-light text-foreground">Logo Position</h3>
+        <h3 className="text-xs text-foreground">Logo Position</h3>
         <LogoPositionDropdown
           value={brandStyle.logo_position}
           onChange={handleLogoPositionChange}

@@ -3,7 +3,7 @@
 import { Icons } from '@/icons';
 import { Select, Tooltip } from '@mantine/core';
 import { useState } from 'react';
-import { DesignColorPicker } from './common';
+import { DesignColorPicker } from './components/design-color-picker';
 import PropertiesIcons from '@/icons/property-icons';
 import { cn } from '@/lib/utils';
 import { fontOptions } from '@/lib/static';

@@ -2,10 +2,12 @@
 
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
-import { CustomSegmentedControl, MultiSelectDropdown, ToolGroup } from '../common';
+import { CustomSegmentedControl } from '@/components/ui/segmented-control';
+import { MultiSelectDropdown } from '@/components/ui/multi-select-dropdown';
+import { ToolGroup } from '@/components/ui/tool-group';
 import { Select, Tooltip } from '@mantine/core';
 import { Icons } from '@/icons';
-import { NavigationBrandStyle } from '../common/navigation-brand-style';
+import { NavigationBrandStyle } from './navigation-brand-style';
 import { NavigationTemplateModal } from './navigation-template-modal';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -79,7 +81,7 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
     { label: 'Call to Action (CTA)', value: 'cta' },
   ];
 
-    const getSelectedAdditionalElements = () => {
+  const getSelectedAdditionalElements = () => {
     const selected: string[] = [];
     if (navbarStyles.show_cart_icon) selected.push('cart');
     if (navbarStyles.show_search_button) selected.push('search');
@@ -93,7 +95,7 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
       <ToolGroup
         label={
           <div className="flex items-center gap-2">
-            <span className="text-xs text-foreground">Navigation Templates</span>
+            <span className="text-xs text-body">Navigation Templates</span>
             <Tooltip
               label="Choose a navigation template"
               multiline
@@ -114,7 +116,7 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
               <span className="text-xs text-muted-foreground">Preview</span>
             </div>
             {/* Display actual template name */}
-            <p className="text-xs font-medium text-foreground truncate max-w-[120px]">
+            <p className="text-xs font-medium text-body truncate max-w-[120px]">
             Template
             </p>
           </div>
@@ -160,7 +162,7 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
       <ToolGroup
         label={
           <div className="flex items-center gap-2">
-            <span className="text-xs text-foreground">Logo Size</span>
+            <span className="text-xs text-body">Logo Size</span>
             <Tooltip
               label="Adjust the size of your logo"
               multiline
@@ -192,7 +194,7 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
       <ToolGroup
         label={
           <div className="flex items-center gap-2">
-            <span className="text-xs text-foreground">Navigation Style</span>
+            <span className="text-xs text-body">Navigation Style</span>
             <Tooltip
               label="Choose how your navbar behaves at the top of the page and while scrolling."
               multiline
@@ -212,7 +214,8 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
           data={navigationStyleOptions}
           disabled={freeTrialEnded}
           classNames={{
-            input: 'border-stroke w-[120px] rounded-lg h-[32px] text-xs',
+             root: 'w-[120px]',
+            input: 'border-stroke rounded-lg h-[32px] text-xs',
             dropdown: 'rounded-xl',
             options: 'hover:rounded-xl font-light text-xs',
             option: 'text-xs p-3',
@@ -225,7 +228,7 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
       <ToolGroup
         label={
           <div className="flex items-center gap-2">
-            <span className="text-xs text-foreground">Colour Scheme</span>
+            <span className="text-xs text-body">Colour Scheme</span>
             <Tooltip
               label="Switch between a light or dark colour style for your navbar text, icons, and background."
               multiline
@@ -255,7 +258,7 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
       <ToolGroup
         label={
           <div className="flex items-center gap-2">
-            <span className="text-xs text-foreground">Bottom Edge Style</span>
+            <span className="text-xs text-body">Bottom Edge Style</span>
             <Tooltip
               label="Add a shadow or bottom border to the bottom edge of your navbar."
               multiline
@@ -276,7 +279,8 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
           data={bottomEdgeStyleOptions}
           disabled={freeTrialEnded}
           classNames={{
-            input: 'border-stroke w-[120px] rounded-lg h-[32px] text-xs',
+            root: 'w-[120px]',
+            input: 'border-stroke rounded-lg h-[32px] text-xs',
             dropdown: 'rounded-xl',
             options: 'hover:rounded-xl font-light text-xs',
             option: 'text-xs p-3',
@@ -289,7 +293,7 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
       <ToolGroup
         label={
           <div className="flex items-center gap-2">
-            <span className="text-xs text-foreground">Additional Elements</span>
+            <span className="text-xs text-body">Additional Elements</span>
             <Tooltip
               label="Show or hide certain elements like icons or buttons on the navbar."
               multiline
@@ -302,12 +306,11 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
             </Tooltip>
           </div>
         }
-        className="w-full"
       >
         <MultiSelectDropdown
-          value={getSelectedAdditionalElements()}
+          selectedItems={getSelectedAdditionalElements()}
           options={additionalElementOptions}
-          onChange={(value) => {}}
+          onChange={(value, checked) => {}}
         />
       </ToolGroup>
 
@@ -315,7 +318,7 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
       <ToolGroup
         label={
           <div className="flex items-center gap-2">
-            <span className="text-xs text-foreground">Icon Size</span>
+            <span className="text-xs text-body">Icon Size</span>
             <Tooltip
               label="Set how big your right-side icons should appear."
               multiline
@@ -346,7 +349,7 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
       <ToolGroup
         label={
           <div className="flex items-center justify-start gap-2 w-full">
-            <span className="text-xs text-foreground">Button Text</span>
+            <span className="text-xs text-body">Button Text</span>
             <Tooltip
               label="The text that appears inside the CTA button."
               multiline
@@ -373,7 +376,7 @@ export const NavbarSettings = ({ freeTrialEnded }: NavbarSettingsProps) => {
       <ToolGroup
         label={
           <div className="flex items-center justify-start gap-2">
-            <span className="text-xs text-foreground">Link/URL</span>
+            <span className="text-xs text-body">Link/URL</span>
             <Tooltip
               label="Choose where the CTA button leads when clicked."
               multiline
