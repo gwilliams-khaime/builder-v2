@@ -22,11 +22,14 @@ export const ToolGroup = ({
       )}
     >
       {label && (
-        <div className="text-xs w-full text-foreground">
+        <div className={cn(
+          "text-xs text-foreground",
+          direction === 'column' && 'w-full'
+        )}>
           {label}
         </div>
       )}
-      <div className="w-full">
+      <div className={cn(direction === 'column' && 'w-full')}>
         {children}
       </div>
     </div>

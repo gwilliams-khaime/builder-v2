@@ -32,6 +32,43 @@ const theme = createTheme({
         },
       },
     },
+    Select: {
+      styles: {
+        input: {
+          backgroundColor: "var(--input)",
+          borderColor: "var(--border)",
+          color: "var(--title)",
+          "&:focus": {
+            borderColor: "var(--primary)",
+          },
+          "&::placeholder": {
+            color: "var(--placeholder)",
+          },
+        },
+        select: {
+          color: "var(--title)",
+        },
+        dropdown: {
+          backgroundColor: "var(--popover)",
+          borderColor: "var(--border)",
+          boxShadow: "0px 4px 16px 0px rgba(0, 0, 0, 0.1)",
+          color: "var(--title)",
+        },
+        option: {
+          color: "var(--title)",
+          "&[data-combobox-selected]": {
+            backgroundColor: "var(--primary) !important",
+            color: "var(--title) !important",
+          },
+          "&:hover": {
+            backgroundColor: "var(--secondary) !important",
+          },
+          "&[data-combobox-selected]:hover": {
+            backgroundColor: "var(--primary) !important",
+          },
+        },
+      },
+    },
   },
 });
 

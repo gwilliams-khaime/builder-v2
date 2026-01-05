@@ -92,7 +92,7 @@ export const MultiSelectDropdown = ({
           <label
             key={option.value}
             className={`w-full px-4 py-3 flex items-center gap-3 cursor-pointer hover:bg-secondary transition-colors duration-150 ${
-              index !== options.length - 1 ? 'border-b border-stroke' : ''
+              index !== options.length - 1 ? 'border-b border-border' : ''
             }`}
           >
             <input
@@ -117,7 +117,7 @@ return (
           disabled={disabled}
           className={cn(
             'w-[120px] h-[36px] border border-border bg-input rounded-lg p-2 flex items-center justify-between transition-all duration-200',
-            disabled ? 'opacity-50 cursor-not-allowed' : 'hover:border-border',
+            disabled ? 'opacity-50 cursor-not-allowed' : '',
             className
           )}
         >
