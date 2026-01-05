@@ -456,27 +456,8 @@ export const Icons = {
     </svg>
   ),
     Info: (props: SVGProps<SVGSVGElement>) => (
-    <svg
-      width="12"
-      height="12"
-      viewBox="0 0 12 12"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <g clipPath="url(#clip0_8656_16816)">
-        <path
-          d="M6 8V6M6 4H6.005M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </g>
-      <defs>
-        <clipPath id="clip0_8656_16816">
-          <rect width="12" height="12" fill="white" />
-        </clipPath>
-      </defs>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path d="M8 11.333q.284 0 .475-.192a.64.64 0 0 0 .192-.474V8a.64.64 0 0 0-.192-.475A.67.67 0 0 0 8 7.333a.64.64 0 0 0-.475.192.67.67 0 0 0-.192.475v2.667q0 .283.192.476a.64.64 0 0 0 .475.19M8 6q.284 0 .475-.192a.64.64 0 0 0 .192-.475.67.67 0 0 0-.192-.475A.64.64 0 0 0 8 4.667a.64.64 0 0 0-.475.192.67.67 0 0 0-.192.474q0 .283.192.475A.64.64 0 0 0 8 6m0 8.667a6.5 6.5 0 0 1-2.6-.525 6.8 6.8 0 0 1-2.116-1.425A6.7 6.7 0 0 1 1.859 10.6 6.5 6.5 0 0 1 1.333 8q0-1.383.525-2.6a6.8 6.8 0 0 1 1.425-2.116q.897-.9 2.116-1.425A6.5 6.5 0 0 1 8 1.333a6.5 6.5 0 0 1 2.6.525 6.7 6.7 0 0 1 2.116 1.425q.899.899 1.427 2.116A6.4 6.4 0 0 1 14.667 8a6.5 6.5 0 0 1-.525 2.6 6.7 6.7 0 0 1-1.425 2.116q-.901.899-2.116 1.427A6.4 6.4 0 0 1 8 14.667" fill="currentColor"/>
     </svg>
   ),
     SolarPallette: (props: SVGProps<SVGSVGElement>) => (
