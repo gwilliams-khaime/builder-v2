@@ -142,7 +142,7 @@ export const EditorHeader = ({ device, setDevice }: EditorHeaderProps) => {
 
         {/* Publish Button */}
         <Tooltip label="Publish" position="bottom" withArrow>
-          <button className="flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-colors text-sm font-medium shadow-sm">
+          <button className="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-full hover:opacity-90 transition-colors text-sm font-medium shadow-sm">
             <Icons.Live width={16} height={16} />
             <span>Publish</span>
           </button>

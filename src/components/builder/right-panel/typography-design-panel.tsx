@@ -3,7 +3,7 @@
 import { Icons } from '@/icons';
 import { Select, Tooltip } from '@mantine/core';
 import { useState } from 'react';
-import { DesignColorPicker } from './common';
+import { DesignColorPicker } from './components/design-color-picker';
 import PropertiesIcons from '@/icons/property-icons';
 import { cn } from '@/lib/utils';
 import { fontOptions } from '@/lib/static';
@@ -83,7 +83,7 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
           data={TEXT_SIZE_OPTIONS}
           comboboxProps={{ zIndex: 100000000, withinPortal: true }}
           classNames={{
-            input: 'border-border bg-input text-foreground w-full rounded-lg h-[32px] text-xs',
+            input: 'border-stroke bg-input text-foreground w-full rounded-lg h-[32px] text-xs',
             dropdown: 'rounded-xl bg-popover',
             options: 'hover:rounded-xl font-light text-xs',
             option: 'text-xs p-3 text-foreground hover:bg-secondary',
@@ -116,7 +116,7 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
           data={FONT_FAMILY_OPTIONS}
           comboboxProps={{ zIndex: 100000000, withinPortal: true }}
           classNames={{
-            input: 'border-border bg-input text-foreground w-full rounded-lg h-[32px] text-xs',
+            input: 'border-stroke bg-input text-foreground w-full rounded-lg h-[32px] text-xs',
             dropdown: 'rounded-xl bg-popover',
             options: 'hover:rounded-xl font-light text-xs',
             option: 'text-xs p-3 text-foreground hover:bg-secondary',
@@ -171,11 +171,11 @@ export function TypographyDesignPanel({ componentId }: TypographyDesignPanelProp
                 className={cn(
                   'h-7 rounded-md text-[10px] shrink-0 w-full flex items-center justify-center border-[0.5px] transition-colors text-foreground',
                   textAlignment === alignment
-                    ? 'dark:bg-primary/80 bg-primary/10 border-foreground'
+                    ? 'bg-[#ECEBFF] text-black border-foreground'
                     : 'bg-card border-border'
                 )}
               >
-                <Icon className="w-4 h-4 text-white dark:text-" />
+                <Icon className="w-4 h-4" />
               </button>
             );
           })}
